@@ -1,0 +1,39 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vs/
+*.dbmdl
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# NuGet packages
+*.nupkg
+packages/
+
+# Compiled output
+*.dll
+*.exe
+*.pdb
+
+# Publish output
+publish/
+*.Publish.xml
+
+# Environment settings
+appsettings.*.json
+
+# Others
+Thumbs.db
