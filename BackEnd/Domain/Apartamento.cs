@@ -1,8 +1,8 @@
 ﻿namespace Domain;
 public class Apartamento : Imovel {
+    public int NumeroApartamento { get; private set; }
+
     public Apartamento(string descricao, decimal valor) : base(descricao, valor)
     {
     }
-
-    public int NumeroApartamento { get; private set; }
 }
