@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Repositorio.Contexto {
+namespace Repositorio.Contexto;
 
-    //Classe necessária para funcionar o Migrations do Entity Framework Core. Sem essa classe ocorre um erro ao executar a criação das migrations.
+//Classe necessária para funcionar o Migrations do Entity Framework Core. Sem essa classe ocorre um erro ao executar a criação das migrations.
 
-    /*
+/*
 
 Explicação detalhada do ChatGPT:
 
@@ -25,23 +25,23 @@ Crie uma classe no projeto Repositorio (mesmo namespace do contexto):
 
 📌 AplicacaoDbContextFactory.cs
 using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Design;
-    using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-    using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore.Design;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-    namespace Repositorio.Contexto {
-        public class AplicacaoDbContextFactory : IDesignTimeDbContextFactory<AplicacaoDbContext> {
-            public AplicacaoDbContext CreateDbContext(string[] args) {
-                var optionsBuilder = new DbContextOptionsBuilder<AplicacaoDbContext>();
+namespace Repositorio.Contexto {
+    public class AplicacaoDbContextFactory : IDesignTimeDbContextFactory<AplicacaoDbContext> {
+        public AplicacaoDbContext CreateDbContext(string[] args) {
+            var optionsBuilder = new DbContextOptionsBuilder<AplicacaoDbContext>();
 
-                optionsBuilder.UseSqlServer(
-                    "Server=localhost;Database=Imobiliaria;User Id=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True;"
-                );
+            optionsBuilder.UseSqlServer(
+                "Server=localhost;Database=Imobiliaria;User Id=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True;"
+            );
 
-                return new AplicacaoDbContext(optionsBuilder.Options);
-            }
+            return new AplicacaoDbContext(optionsBuilder.Options);
         }
     }
+}
 
 🎉 Pronto — agora esse erro nunca mais aparece
 
@@ -54,15 +54,10 @@ Durante o design-time(migrations), o EF procura IDesignTimeDbContextFactory
 Encontra sua factory e cria o DbContext com a connection informada
 
 */
-    public class AplicacaoDbContextFactory : IDesignTimeDbContextFactory<AplicacaoDbContext> {
-        public AplicacaoDbContext CreateDbContext(string[] args) {
-            var optionsBuilder = new DbContextOptionsBuilder<AplicacaoDbContext>();
-
-            optionsBuilder.UseSqlServer(
-                "Server=localhost;Database=Imobiliaria;User Id=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True;"
-            );
-
-            return new AplicacaoDbContext(optionsBuilder.Options);
-        }
+public class AplicacaoDbContextFactory : IDesignTimeDbContextFactory<AplicacaoDbContext> {
+    public AplicacaoDbContext CreateDbContext(string[] args) {
+        var optionsBuilder = new DbContextOptionsBuilder<AplicacaoDbContext>();
+        optionsBuilder.UseSqlServer("Server=localhost;Database=Imobiliaria;User Id=sa;Password=1q2w3e4r@#$;TrustServerCertificate=True");
+        return new AplicacaoDbContext(optionsBuilder.Options);
     }
 }
