@@ -6,5 +6,10 @@
         public UnidadeFederacao(string nome) {
             Nome = nome;
         }
+
+        public void Atualizar(string nome) {
+            Nome = nome;
+        }
+
     }
 }

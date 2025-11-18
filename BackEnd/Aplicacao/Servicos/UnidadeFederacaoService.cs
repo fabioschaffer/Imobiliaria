@@ -21,8 +21,48 @@ public class UnidadeFederacaoService : IUnidadeFederacaoService {
         return unidadeFederacao.Id;
     }
 
-    public Task Atualizar(UnidadeFederacaoDTO unidadeFederacaoDTO) => throw new NotImplementedException();
-    public Task Excluir(int? id) => throw new NotImplementedException();
-    public Task<UnidadeFederacaoDTO> ObterPorId(int? id) => throw new NotImplementedException();
-    public Task<IEnumerable<UnidadeFederacaoDTO>> ObterUnidadesFederacao() => throw new NotImplementedException();
+    public async Task Atualizar(int id, UnidadeFederacaoDTO unidadeFederacaoDTO) {
+        var unidadeFederacao = await unidadeFederacaoRepository.ObterPorId(id);
+
+        if (unidadeFederacao == null)
+            throw new KeyNotFoundException($"UnidadeFederacao with Id {id} not found.");
+
+        unidadeFederacao.Atualizar(unidadeFederacaoDTO.Nome);
+
+        await unidadeFederacaoRepository.Atualizar(unidadeFederacao);
+    }
+
+    public async Task Excluir(int? id) {
+        var unidadeFederacao = await unidadeFederacaoRepository.ObterPorId(id);
+
+        if (unidadeFederacao == null)
+            throw new KeyNotFoundException($"UnidadeFederacao with Id {id} not found.");
+
+        await unidadeFederacaoRepository.Excluir(unidadeFederacao);
+    }
+
+    public async Task<UnidadeFederacaoDTO> ObterPorId(int? id) {
+        if (id == null) {
+            throw new ArgumentNullException(nameof(id), "Id cannot be null.");
+        }
+
+        var unidadeFederacao = await unidadeFederacaoRepository.ObterPorId(id);
+
+        if (unidadeFederacao == null) {
+            throw new KeyNotFoundException($"UnidadeFederacao with Id {id} not found.");
+        }
+
+        return new UnidadeFederacaoDTO {
+            Id=unidadeFederacao.Id,
+            Nome = unidadeFederacao.Nome
+        };
+    }
+    public async Task<IEnumerable<UnidadeFederacaoDTO>> ObterUnidadesFederacao() {
+        var unidadesFederacao = await unidadeFederacaoRepository.ObterUnidadesFederacao();
+
+        return unidadesFederacao.Select(uf => new UnidadeFederacaoDTO {
+            Id = uf.Id,
+            Nome = uf.Nome
+        });
+    }
 }
