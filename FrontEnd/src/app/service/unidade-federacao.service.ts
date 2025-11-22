@@ -13,11 +13,11 @@ export class UnidadeFederacaoService {
 
   constructor(private http: HttpClient) { }
 
-  criar(unidadeFederacao: UnidadeFederacao) : Observable<number>{
+  criar(unidadeFederacao: UnidadeFederacao): Observable<number> {
     return this.http.post<number>(this.apiUrl, unidadeFederacao);
   }
 
-  // obterTodas() : Observable<Categoria[]> {
-  //   return this.http.get<Categoria[]>(this.apiUrl);
-  // }
+  obterTodas(): Observable<UnidadeFederacao[]> {
+    return this.http.get<UnidadeFederacao[]>(this.apiUrl);
+  }
 }

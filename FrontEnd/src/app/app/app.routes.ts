@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { UnidadeFederacaoComponent } from '../unidade-federacao/cadastro/unidade-federacao-cadastro.component';
+import { UnidadeFederacaoListagemComponent } from '../unidade-federacao/listagem/unidade-federacao-listagem.component';
 
 export const routes: Routes = [
-    { path: 'unidadefederacao', component: UnidadeFederacaoComponent  }
+    { path: 'unidadefederacao', component: UnidadeFederacaoListagemComponent }
 ];

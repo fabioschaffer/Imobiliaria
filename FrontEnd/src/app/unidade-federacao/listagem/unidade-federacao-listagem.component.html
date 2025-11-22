@@ -1,0 +1,18 @@
+<h3 class="text-center p-4">Cadastro de Unidade da Federação</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let uf of unidadesFederacao">
+            <th scope="row">{{ uf.id }}</th>
+            <td>{{ uf.nome }}</td>
+        </tr>
+    </tbody>
+
+</table>
