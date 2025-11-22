@@ -3,6 +3,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { UnidadeFederacaoService } from '../../service/unidade-federacao.service';
 import { UnidadeFederacao } from '../../interfaces/unidade-federacao.interface';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-unidade-federacao-listagem.component',
@@ -13,17 +15,26 @@ import { CommonModule } from '@angular/common';
 })
 export class UnidadeFederacaoListagemComponent {
 
+
   unidadesFederacao: UnidadeFederacao[] = [];
 
   constructor(
-    private unidadeFederacaoService: UnidadeFederacaoService
+    private unidadeFederacaoService: UnidadeFederacaoService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.unidadeFederacaoService.obterTodas()
       .subscribe(ufs => {
         console.log(ufs);
-        return this.unidadesFederacao = ufs;
+        this.unidadesFederacao = ufs;
+        this.cdr.detectChanges();
       });
   }
+
+  Novo() {
+    this.router.navigate(['/unidadefederacaocadastro']);
+  }
+
 }
