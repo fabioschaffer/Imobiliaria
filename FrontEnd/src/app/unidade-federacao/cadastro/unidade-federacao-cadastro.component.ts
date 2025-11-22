@@ -9,7 +9,7 @@ import { UnidadeFederacaoService } from '../../service/unidade-federacao.service
   standalone: true,
   imports: [ReactiveFormsModule],
 })
-export class UnidadeFederacaoComponent {
+export class UnidadeFederacaoCadastroComponent {
 
   camposForm: FormGroup;
 

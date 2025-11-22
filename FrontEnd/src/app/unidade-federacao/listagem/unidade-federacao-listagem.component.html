@@ -1,21 +1,20 @@
-<h3 class="text-center p-4">Cadastro de Unidade da Federação</h3>
+<h3 class="text-center p-2">Cadastro de Unidade da Federação</h3>
 
-<h4 class="text-center p-4">
+<h4 class="text-center pb-2">
     <button type="button" class="btn btn-primary" (click)="Novo()">Novo</button>
-
 </h4>
 
-<table class="table">
+<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">#</th>
+            <th class="d-none" scope="col">#</th>
             <th scope="col">Nome</th>
         </tr>
     </thead>
 
-    <tbody>
+    <tbody class="table-group-divider">
         <tr *ngFor="let uf of unidadesFederacao">
-            <th scope="row">{{ uf.id }}</th>
+            <th class="d-none" scope="row">{{ uf.id }}</th>
             <td>{{ uf.nome }}</td>
         </tr>
     </tbody>
