@@ -14,6 +14,12 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class UnidadeFederacaoListagemComponent {
+  Excluir(_t13: UnidadeFederacao) {
+    throw new Error('Method not implemented.');
+  }
+  Editar(_t13: UnidadeFederacao) {
+    throw new Error('Method not implemented.');
+  }
 
 
   unidadesFederacao: UnidadeFederacao[] = [];

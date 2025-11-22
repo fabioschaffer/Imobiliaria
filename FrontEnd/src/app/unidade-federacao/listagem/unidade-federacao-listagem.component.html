@@ -9,6 +9,7 @@
         <tr>
             <th class="d-none" scope="col">#</th>
             <th scope="col">Nome</th>
+            <th scope="col" class="text-center" style=" width: 150px;">Ações</th>
         </tr>
     </thead>
 
@@ -16,6 +17,18 @@
         <tr *ngFor="let uf of unidadesFederacao">
             <th class="d-none" scope="row">{{ uf.id }}</th>
             <td>{{ uf.nome }}</td>
+            <td class="text-center">
+
+                <!-- Ícone Editar -->
+                <i class="bi bi-pencil-square text-primary fs-5 me-3" role="button" title="Editar" (click)="Editar(uf)">
+                </i>
+
+                <!-- Ícone Excluir -->
+                <i class="bi bi-trash text-danger fs-5" role="button" title="Excluir" (click)="Excluir(uf)">
+                </i>
+
+            </td>
+
         </tr>
     </tbody>
 
