@@ -22,8 +22,9 @@ public class UnidadeFederacaoController : ControllerBase {
     }
 
     [HttpPut("{id}")]
-    public async Task Atualizar(int id, [FromBody] UnidadeFederacaoDTO unidadeFederacaoDTO) {
+    public async Task<bool> Atualizar(int id, [FromBody] UnidadeFederacaoDTO unidadeFederacaoDTO) {
         await unidadeFederacaoService.Atualizar(id, unidadeFederacaoDTO);
+        return true;
     }
 
     [HttpGet]
@@ -39,8 +40,9 @@ public class UnidadeFederacaoController : ControllerBase {
     }
 
     [HttpDelete("{id}")]
-    public async Task Excluir(int id) {
+    public async Task<bool> Excluir(int id) {
         await unidadeFederacaoService.Excluir(id);
+        return true;
     }
 
 }

@@ -17,7 +17,19 @@ export class UnidadeFederacaoService {
     return this.http.post<number>(this.apiUrl, unidadeFederacao);
   }
 
+  editar(unidadeFederacao: UnidadeFederacao): Observable<boolean> {
+    return this.http.put<boolean>(`${this.apiUrl}/${unidadeFederacao.id}`, unidadeFederacao);
+  }
+
   obterTodas(): Observable<UnidadeFederacao[]> {
     return this.http.get<UnidadeFederacao[]>(this.apiUrl);
+  }
+
+  obterUma(id: number): Observable<UnidadeFederacao> {
+    return this.http.get<UnidadeFederacao>(`${this.apiUrl}/${id}`);
+  }
+
+  excluir(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.apiUrl}/${id}`);
   }
 }

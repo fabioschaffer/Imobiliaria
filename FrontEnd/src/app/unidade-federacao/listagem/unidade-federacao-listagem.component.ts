@@ -14,14 +14,6 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class UnidadeFederacaoListagemComponent {
-  Excluir(_t13: UnidadeFederacao) {
-    throw new Error('Method not implemented.');
-  }
-  Editar(_t13: UnidadeFederacao) {
-    throw new Error('Method not implemented.');
-  }
-
-
   unidadesFederacao: UnidadeFederacao[] = [];
 
   constructor(
@@ -31,16 +23,50 @@ export class UnidadeFederacaoListagemComponent {
   ) { }
 
   ngOnInit(): void {
+    this.carregarLista();
+  }
+
+  carregarLista() {
     this.unidadeFederacaoService.obterTodas()
       .subscribe(ufs => {
         console.log(ufs);
         this.unidadesFederacao = ufs;
         this.cdr.detectChanges();
       });
+
   }
 
   Novo() {
     this.router.navigate(['/unidadefederacaocadastro']);
+  }
+
+  Editar(id: number) {
+    this.router.navigate(
+      ['/unidadefederacaocadastro'],
+      { queryParams: { id: id } }
+    );
+
+  }
+
+  Excluir(uf: UnidadeFederacao) {
+
+    const confirmado = window.confirm(
+      `Tem certeza que deseja excluir "${uf.nome}"?`
+    );
+
+    if (!confirmado) return;
+
+    this.unidadeFederacaoService.excluir(uf.id).subscribe({
+      next: () => {
+        alert('Excluído com sucesso!');
+        this.carregarLista();
+      },
+      error: err => {
+        console.error(err);
+        alert('Erro ao excluir');
+      }
+    });
+
   }
 
 }
