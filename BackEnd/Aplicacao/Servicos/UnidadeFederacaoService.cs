@@ -1,6 +1,6 @@
 ﻿using Aplicacao.DTOs;
 using Aplicacao.Interfaces;
-using Domain;
+using Dominio.Entidades;
 using Repositorio.Interfaces;
 
 namespace Aplicacao.Servicos;

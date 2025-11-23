@@ -5,7 +5,7 @@
 namespace Repositorio.Migrations
 {
     /// <inheritdoc />
-    public partial class migration_17_11_25_01 : Migration
+    public partial class migration_23_11_25_03 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

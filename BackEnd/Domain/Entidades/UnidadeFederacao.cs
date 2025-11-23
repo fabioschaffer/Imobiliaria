@@ -1,4 +1,4 @@
-﻿namespace Domain {
+﻿namespace Dominio.Entidades {
     public class UnidadeFederacao {
         public int Id { get; private set; }
         public string Nome { get; private set; }
