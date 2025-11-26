@@ -18,4 +18,20 @@
     <ProjectReference Include="..\Domain\Dominio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\GitHub\Imobiliaria\BackEnd\Repository\Contexto\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Contexto\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\GitHub\Imobiliaria\BackEnd\Repository\Contexto\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\GitHub\Imobiliaria\BackEnd\Repository\Contexto\.editorconfig" />
+  </ItemGroup>
+
 </Project>

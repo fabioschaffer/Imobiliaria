@@ -10,5 +10,4 @@ public class ImovelDTO {
     public byte VagasGaragem { get; set; }
     public decimal Valor { get; set; }
     public Endereco Endereco { get; set; }
-    public ImovelCaracteristica[] Caracteristicas { get; set; }
 }

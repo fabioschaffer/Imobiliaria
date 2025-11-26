@@ -11,8 +11,8 @@ using Repositorio.Contexto;
 namespace Repositorio.Migrations
 {
     [DbContext(typeof(AplicacaoDbContext))]
-    [Migration("20251123110430_migration_23_11_25_03")]
-    partial class migration_23_11_25_03
+    [Migration("20251126003112_migration_001")]
+    partial class migration_001
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,23 @@ namespace Repositorio.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Dominio.Entidades.Caracteristica", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Caracteristica");
+                });
 
             modelBuilder.Entity("Dominio.Entidades.Cidade", b =>
                 {
@@ -110,29 +127,7 @@ namespace Repositorio.Migrations
 
                     b.HasIndex("EnderecoId");
 
-                    b.ToTable("Imoveis");
-                });
-
-            modelBuilder.Entity("Dominio.Entidades.ImovelCaracteristica", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ImovelId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ImovelId");
-
-                    b.ToTable("ImovelCaracteristicas");
+                    b.ToTable("Imovel");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.UnidadeFederacao", b =>
@@ -149,7 +144,31 @@ namespace Repositorio.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UnidadesFederacao");
+                    b.ToTable("UnidadeFederacao");
+                });
+
+            modelBuilder.Entity("ImovelCaracteristica", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CaracteristicaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImovelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CaracteristicaId");
+
+                    b.HasIndex("ImovelId", "CaracteristicaId")
+                        .IsUnique();
+
+                    b.ToTable("ImovelCaracteristica");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Cidade", b =>
@@ -185,16 +204,33 @@ namespace Repositorio.Migrations
                     b.Navigation("Endereco");
                 });
 
-            modelBuilder.Entity("Dominio.Entidades.ImovelCaracteristica", b =>
+            modelBuilder.Entity("ImovelCaracteristica", b =>
                 {
-                    b.HasOne("Dominio.Entidades.Imovel", null)
-                        .WithMany("Caracteristicas")
-                        .HasForeignKey("ImovelId");
+                    b.HasOne("Dominio.Entidades.Caracteristica", "Caracteristica")
+                        .WithMany("ImoveisCaracteristicasBB")
+                        .HasForeignKey("CaracteristicaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Dominio.Entidades.Imovel", "Imovel")
+                        .WithMany("ImoveisCaracteristicas")
+                        .HasForeignKey("ImovelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Caracteristica");
+
+                    b.Navigation("Imovel");
+                });
+
+            modelBuilder.Entity("Dominio.Entidades.Caracteristica", b =>
+                {
+                    b.Navigation("ImoveisCaracteristicasBB");
                 });
 
             modelBuilder.Entity("Dominio.Entidades.Imovel", b =>
                 {
-                    b.Navigation("Caracteristicas");
+                    b.Navigation("ImoveisCaracteristicas");
                 });
 #pragma warning restore 612, 618
         }

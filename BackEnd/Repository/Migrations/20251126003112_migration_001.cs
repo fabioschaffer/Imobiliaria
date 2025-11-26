@@ -5,13 +5,26 @@
 namespace Repositorio.Migrations
 {
     /// <inheritdoc />
-    public partial class migration_23_11_25_02 : Migration
+    public partial class migration_001 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UnidadesFederacao",
+                name: "Caracteristica",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Caracteristica", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnidadeFederacao",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -20,7 +33,7 @@ namespace Repositorio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UnidadesFederacao", x => x.Id);
+                    table.PrimaryKey("PK_UnidadeFederacao", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,9 +49,9 @@ namespace Repositorio.Migrations
                 {
                     table.PrimaryKey("PK_Cidade", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Cidade_UnidadesFederacao_UnidadeFederacaoId",
+                        name: "FK_Cidade_UnidadeFederacao_UnidadeFederacaoId",
                         column: x => x.UnidadeFederacaoId,
-                        principalTable: "UnidadesFederacao",
+                        principalTable: "UnidadeFederacao",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -67,7 +80,7 @@ namespace Repositorio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Imoveis",
+                name: "Imovel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -81,9 +94,9 @@ namespace Repositorio.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Imoveis", x => x.Id);
+                    table.PrimaryKey("PK_Imovel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Imoveis_Endereco_EnderecoId",
+                        name: "FK_Imovel_Endereco_EnderecoId",
                         column: x => x.EnderecoId,
                         principalTable: "Endereco",
                         principalColumn: "Id",
@@ -91,22 +104,29 @@ namespace Repositorio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImovelCaracteristicas",
+                name: "ImovelCaracteristica",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImovelId = table.Column<int>(type: "int", nullable: true)
+                    ImovelId = table.Column<int>(type: "int", nullable: false),
+                    CaracteristicaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImovelCaracteristicas", x => x.Id);
+                    table.PrimaryKey("PK_ImovelCaracteristica", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ImovelCaracteristicas_Imoveis_ImovelId",
+                        name: "FK_ImovelCaracteristica_Caracteristica_CaracteristicaId",
+                        column: x => x.CaracteristicaId,
+                        principalTable: "Caracteristica",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ImovelCaracteristica_Imovel_ImovelId",
                         column: x => x.ImovelId,
-                        principalTable: "Imoveis",
-                        principalColumn: "Id");
+                        principalTable: "Imovel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -120,24 +140,33 @@ namespace Repositorio.Migrations
                 column: "CidadeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Imoveis_EnderecoId",
-                table: "Imoveis",
+                name: "IX_Imovel_EnderecoId",
+                table: "Imovel",
                 column: "EnderecoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImovelCaracteristicas_ImovelId",
-                table: "ImovelCaracteristicas",
-                column: "ImovelId");
+                name: "IX_ImovelCaracteristica_CaracteristicaId",
+                table: "ImovelCaracteristica",
+                column: "CaracteristicaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ImovelCaracteristica_ImovelId_CaracteristicaId",
+                table: "ImovelCaracteristica",
+                columns: new[] { "ImovelId", "CaracteristicaId" },
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ImovelCaracteristicas");
+                name: "ImovelCaracteristica");
 
             migrationBuilder.DropTable(
-                name: "Imoveis");
+                name: "Caracteristica");
+
+            migrationBuilder.DropTable(
+                name: "Imovel");
 
             migrationBuilder.DropTable(
                 name: "Endereco");
@@ -146,7 +175,7 @@ namespace Repositorio.Migrations
                 name: "Cidade");
 
             migrationBuilder.DropTable(
-                name: "UnidadesFederacao");
+                name: "UnidadeFederacao");
         }
     }
 }

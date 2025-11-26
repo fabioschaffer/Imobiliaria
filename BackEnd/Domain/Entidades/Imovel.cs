@@ -1,7 +1,7 @@
 ﻿using Dominio.Enums;
 
 namespace Dominio.Entidades {
-    public  class Imovel {
+    public class Imovel {
         public int Id { get; private set; }
         public TipoImovel TipoImovel { get; private set; }
         public decimal Area { get; private set; }
@@ -9,10 +9,11 @@ namespace Dominio.Entidades {
         public byte VagasGaragem { get; set; }
         public decimal Valor { get; set; }
         public Endereco Endereco { get; set; }
-        public List<ImovelCaracteristica> Caracteristicas { get; set; }
+
+        public ICollection<ImovelCaracteristica> ImoveisCaracteristicas { get; set; }
 
         protected Imovel() {
-            
+
         }
 
         protected Imovel(TipoImovel tipoImovel, decimal area, byte quartos, byte vagasGaragem, decimal valor) {

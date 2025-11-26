@@ -8,9 +8,16 @@ public class AplicacaoDbContext : DbContext {
       : base(options) {
     }
 
-    public DbSet<UnidadeFederacao> UnidadesFederacao { get; set; }
-    public DbSet<ImovelCaracteristica> ImovelCaracteristicas { get; set; }
-    public DbSet<Imovel> Imoveis { get; set; }
-    public DbSet<ImoveisCaracteristicas> ImoveisCaracteristicas { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AplicacaoDbContext).Assembly);
 
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            entity.SetTableName(entity.ClrType.Name);
+    }
+
+    public DbSet<UnidadeFederacao> UnidadesFederacao { get; set; }
+
+    public DbSet<Imovel> Imoveis { get; set; }
+    public DbSet<Caracteristica> Caracteristicas { get; set; }
+    public DbSet<ImovelCaracteristica> ImoveisCaracteristicas { get; set; }
 }
