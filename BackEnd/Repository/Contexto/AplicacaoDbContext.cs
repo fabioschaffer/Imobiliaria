@@ -1,4 +1,5 @@
-﻿using Dominio.Entidades;
+﻿using Dominio.Entidades.EnderecoNS;
+using Dominio.Entidades.Imobiliaria;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositorio.Contexto;

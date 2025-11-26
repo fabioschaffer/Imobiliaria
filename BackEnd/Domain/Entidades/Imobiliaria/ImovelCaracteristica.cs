@@ -1,5 +1,8 @@
-﻿using Dominio.Entidades;
+﻿using Dominio.Entidades.Imobiliaria;
+using Dominio.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
+[Table(nameof(ImovelCaracteristica), Schema = nameof(Schemas.Imobiliaria))]
 public class ImovelCaracteristica {
     public int Id { get; set; }
 

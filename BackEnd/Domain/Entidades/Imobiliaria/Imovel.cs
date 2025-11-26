@@ -1,6 +1,10 @@
-﻿using Dominio.Enums;
+﻿using Dominio.Entidades.EnderecoNS;
+using Dominio.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Dominio.Entidades {
+namespace Dominio.Entidades.Imobiliaria {
+
+    [Table(nameof(Imovel), Schema = nameof(Schemas.Imobiliaria))]
     public class Imovel {
         public int Id { get; private set; }
         public TipoImovel TipoImovel { get; private set; }

@@ -1,4 +1,4 @@
-﻿using Dominio.Entidades;
+﻿using Dominio.Entidades.EnderecoNS;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;

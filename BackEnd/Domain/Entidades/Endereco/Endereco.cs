@@ -1,4 +1,9 @@
-﻿namespace Dominio.Entidades {
+﻿using Dominio.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Dominio.Entidades.EnderecoNS {
+
+    [Table(nameof(Endereco), Schema = nameof(Schemas.Endereco))]
     public class Endereco {
         public int Id { get; set; }
         public string CEP { get; set; }

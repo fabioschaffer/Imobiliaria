@@ -1,4 +1,4 @@
-﻿using Dominio.Entidades;
+﻿using Dominio.Entidades.EnderecoNS;
 using Dominio.Enums;
 
 namespace Aplicacao.DTOs;
