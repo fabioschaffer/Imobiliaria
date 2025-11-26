@@ -1,14 +1,14 @@
-﻿using Aplicacao.DTOs;
-using Aplicacao.Interfaces;
+﻿using Aplicacao.Endereco.DTOs;
+using Aplicacao.Endereco.Interfaces;
 using Dominio.Entidades.EnderecoNS;
 using Repositorio.Interfaces;
 
-namespace Aplicacao.Servicos;
-public class UnidadeFederacaoService : IUnidadeFederacaoService {
+namespace Aplicacao.Endereco.Servicos;
+public class ImovelService : IUnidadeFederacaoService {
 
     private IUnidadeFederacaoRepository unidadeFederacaoRepository;
 
-    public UnidadeFederacaoService(IUnidadeFederacaoRepository unidadeFederacaoRepository) {
+    public ImovelService(IUnidadeFederacaoRepository unidadeFederacaoRepository) {
         this.unidadeFederacaoRepository = unidadeFederacaoRepository;
     }
 
@@ -53,7 +53,7 @@ public class UnidadeFederacaoService : IUnidadeFederacaoService {
         }
 
         return new UnidadeFederacaoDTO {
-            Id=unidadeFederacao.Id,
+            Id = unidadeFederacao.Id,
             Nome = unidadeFederacao.Nome
         };
     }

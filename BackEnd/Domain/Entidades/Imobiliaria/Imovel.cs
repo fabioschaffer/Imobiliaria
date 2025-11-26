@@ -9,18 +9,26 @@ namespace Dominio.Entidades.Imobiliaria {
         public int Id { get; private set; }
         public TipoImovel TipoImovel { get; private set; }
         public decimal Area { get; private set; }
-        public byte Quartos { get; set; }
-        public byte VagasGaragem { get; set; }
-        public decimal Valor { get; set; }
-        public Endereco Endereco { get; set; }
+        public byte Quartos { get; private set; }
+        public byte VagasGaragem { get; private set; }
+        public decimal Valor { get; private set; }
+        public Endereco Endereco { get; private set; }
 
         public ICollection<ImovelCaracteristica> ImoveisCaracteristicas { get; set; }
 
-        protected Imovel() {
+        public Imovel() {
 
         }
 
-        protected Imovel(TipoImovel tipoImovel, decimal area, byte quartos, byte vagasGaragem, decimal valor) {
+        public Imovel(TipoImovel tipoImovel, decimal area, byte quartos, byte vagasGaragem, decimal valor) {
+            TipoImovel = tipoImovel;
+            Area = area;
+            Quartos = quartos;
+            VagasGaragem = vagasGaragem;
+            Valor = valor;
+        }
+
+        public void Atualizar(TipoImovel tipoImovel, decimal area, byte quartos, byte vagasGaragem, decimal valor) {
             TipoImovel = tipoImovel;
             Area = area;
             Quartos = quartos;

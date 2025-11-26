@@ -1,6 +1,6 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.Endereco.DTOs;
 
-namespace Aplicacao.Interfaces;
+namespace Aplicacao.Endereco.Interfaces;
 
 public interface IUnidadeFederacaoService {
     Task<IEnumerable<UnidadeFederacaoDTO>> ObterUnidadesFederacao();

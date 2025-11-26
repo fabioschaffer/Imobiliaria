@@ -1,8 +1,15 @@
-using Aplicacao.DTOs;
-using Aplicacao.Interfaces;
+using Aplicacao.Imobiliaria.DTOs;
+using Aplicacao.Imobiliaria.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
+namespace API.Controllers.Imobiliaria;
+
+
+
+//TODO: Continuar aqui: Testar o CRUD de Imovel.
+
+
+
 
 [ApiController]
 [Route("Imovel")]
@@ -16,9 +23,6 @@ public class ImovelController : ControllerBase {
 
     [HttpPost]
     public async Task<int> Criar([FromBody] ImovelDTO ImovelDTO) {
-
-        //TODO: Continuar aqui. Implementar o .Criar abaixo.
-
         var id = await ImovelService.Criar(ImovelDTO);
         return id;
     }
@@ -31,7 +35,7 @@ public class ImovelController : ControllerBase {
 
     [HttpGet]
     public async Task<ImovelDTO[]> ObterTodas() {
-        var unidades = await ImovelService.Obter();
+        var unidades = await ImovelService.ObterImoveis();
         return unidades.ToArray();
     }
 

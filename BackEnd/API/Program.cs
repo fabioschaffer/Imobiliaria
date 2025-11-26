@@ -1,5 +1,5 @@
-using Aplicacao.Interfaces;
-using Aplicacao.Servicos;
+using Aplicacao.Endereco.Interfaces;
+using Aplicacao.Endereco.Servicos;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;
@@ -47,5 +47,5 @@ static void ConfiguraRepositorio(WebApplicationBuilder builder) {
 }
 
 static void ConfiguraService(WebApplicationBuilder builder) {
-    builder.Services.AddScoped<IUnidadeFederacaoService, UnidadeFederacaoService>();
+    builder.Services.AddScoped<IUnidadeFederacaoService, ImovelService>();
 }

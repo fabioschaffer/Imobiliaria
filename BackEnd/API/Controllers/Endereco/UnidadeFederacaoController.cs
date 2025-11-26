@@ -1,8 +1,8 @@
-using Aplicacao.DTOs;
-using Aplicacao.Interfaces;
+using Aplicacao.Endereco.DTOs;
+using Aplicacao.Endereco.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
+namespace API.Controllers.Endereco;
 
 [ApiController]
 [Route("UnidadeFederacao")]
