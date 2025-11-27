@@ -87,7 +87,7 @@ public class ImovelService : IImovelService {
         imovel.Atualizar(imovelDTO.TipoImovel, imovelDTO.Area, imovelDTO.Quartos, imovelDTO.VagasGaragem, imovelDTO.Valor);
 
         // --- REMOVER ---
-        var novos_IC_Ids = imovelDTO.ImovelCaracteristicas?.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
+        var novos_IC_Ids = imovelDTO.ImovelCaracteristicas.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
         var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => !novos_IC_Ids.Contains(ic.CaracteristicaId));
         foreach (var ic in paraRemover)
             imovel.RemoverCaracteristica(ic);

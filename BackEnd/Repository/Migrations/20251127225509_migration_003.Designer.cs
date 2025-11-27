@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositorio.Contexto;
 
@@ -10,9 +11,11 @@ using Repositorio.Contexto;
 namespace Repositorio.Migrations
 {
     [DbContext(typeof(AplicacaoDbContext))]
-    partial class AplicacaoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251127225509_migration_003")]
+    partial class migration_003
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,7 +125,7 @@ namespace Repositorio.Migrations
                     b.Property<decimal>("Area")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("EnderecoId")
+                    b.Property<int>("EnderecoId")
                         .HasColumnType("int");
 
                     b.Property<byte>("Quartos")
@@ -194,7 +197,9 @@ namespace Repositorio.Migrations
                 {
                     b.HasOne("Dominio.Entidades.EnderecoNS.Endereco", "Endereco")
                         .WithMany()
-                        .HasForeignKey("EnderecoId");
+                        .HasForeignKey("EnderecoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Endereco");
                 });

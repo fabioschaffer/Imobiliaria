@@ -2,7 +2,7 @@
 
 namespace Aplicacao.Imobiliaria.DTOs;
 
-public record ImovelDTO (
+public record ImovelDTO(
     int Id,
     TipoImovel TipoImovel,
     decimal Area,
@@ -10,4 +10,6 @@ public record ImovelDTO (
     byte VagasGaragem,
     decimal Valor,
     ImovelCaracteristicaDTO[] ImovelCaracteristicas
-);
+) {
+    public ImovelCaracteristicaDTO[] ImovelCaracteristicas { get; init; } = ImovelCaracteristicas ?? Array.Empty<ImovelCaracteristicaDTO>();
+}

@@ -14,8 +14,8 @@ public class Imovel {
     public byte Quartos { get; private set; }
     public byte VagasGaragem { get; private set; }
     public decimal Valor { get; private set; }
-    public Endereco Endereco { get; private set; }
-    public ICollection<ImovelCaracteristica> ImoveisCaracteristicas { get; private set; }
+    public Endereco? Endereco { get; private set; }
+    public ICollection<ImovelCaracteristica> ImoveisCaracteristicas { get; private set; } = new List<ImovelCaracteristica>();
     public Imovel() { }
 
     public void Atualizar(TipoImovel tipoImovel, decimal area, byte quartos, byte vagasGaragem, decimal valor) {
