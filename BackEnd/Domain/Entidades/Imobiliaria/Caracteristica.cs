@@ -5,8 +5,8 @@ namespace Dominio.Entidades.Imobiliaria;
 
 [Table(nameof(Caracteristica), Schema = nameof(Schemas.Imobiliaria))]
 public class Caracteristica {
-    public int Id { get; set; }
-    public string Descricao { get; set; }
-    public ICollection<ImovelCaracteristica> ImoveisCaracteristicasBB { get; set; }
+    public int Id { get; private set; }
+    public string Descricao { get; private set; }
+    public ICollection<ImovelCaracteristica> ImoveisCaracteristicasBB { get; private set; }
 
 }

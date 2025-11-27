@@ -1,7 +1,5 @@
-﻿using Aplicacao.Endereco.DTOs;
-using Aplicacao.Imobiliaria.DTOs;
+﻿using Aplicacao.Imobiliaria.DTOs;
 using Aplicacao.Imobiliaria.Interfaces;
-using Dominio.Entidades.EnderecoNS;
 using Dominio.Entidades.Imobiliaria;
 using Repositorio.Interfaces;
 
@@ -14,13 +12,28 @@ public class ImovelService : IImovelService {
         this.ImovelRepository = ImovelRepository;
     }
 
-    public async Task<int> Criar(ImovelDTO ImovelDTO) {
+    public async Task<int> Criar(ImovelDTO imovelDTO) {
+        var imovel = new Imovel();
+        imovel.Atualizar(imovelDTO.TipoImovel, imovelDTO.Area, imovelDTO.Quartos, imovelDTO.VagasGaragem, imovelDTO.Valor);
 
-        var Imovel = new Dominio.Entidades.Imobiliaria.Imovel(ImovelDTO.TipoImovel, ImovelDTO.Area, ImovelDTO.Quartos, ImovelDTO.VagasGaragem, ImovelDTO.Valor);
+        // --- REMOVER ---
+        var novos_IC_Ids = imovelDTO.ImovelCaracteristicas?.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
+        var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => !novos_IC_Ids.Contains(ic.CaracteristicaId));
+        foreach (var ic in paraRemover)
+            imovel.RemoverCaracteristica(ic);
 
-        await ImovelRepository.Criar(Imovel);
+        // --- ADICIONAR ---
+        var paraAdicionar = imovelDTO.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0);
+        foreach (var ic in paraAdicionar) {
 
-        return Imovel.Id;
+            //TODO: Continuar aqui.
+            imovel.AdicionarCaracteristica(ic);
+
+        }
+
+
+        await ImovelRepository.Criar(imovel);
+        return imovel.Id;
     }
 
     public async Task Atualizar(int id, ImovelDTO ImovelDTO) {
@@ -29,7 +42,7 @@ public class ImovelService : IImovelService {
         if (Imovel == null)
             throw new KeyNotFoundException($"Imovel with Id {id} not found.");
 
-        Imovel.Atualizar(ImovelDTO.TipoImovel, ImovelDTO.Area, ImovelDTO.Quartos, ImovelDTO.VagasGaragem, ImovelDTO.Valor);
+        Imovel.Atualizar(ImovelDTO.TipoImovel, ImovelDTO.Area, ImovelDTO.Quartos, ImovelDTO.VagasGaragem, ImovelDTO.Valor, ImovelDTO.ImovelCaracteristicas);
 
         await ImovelRepository.Atualizar(Imovel);
     }

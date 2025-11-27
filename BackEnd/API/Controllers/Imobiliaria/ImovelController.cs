@@ -4,13 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Imobiliaria;
 
-
-
-//TODO: Continuar aqui: Testar o CRUD de Imovel.
-
-
-
-
 [ApiController]
 [Route("Imovel")]
 public class ImovelController : ControllerBase {
