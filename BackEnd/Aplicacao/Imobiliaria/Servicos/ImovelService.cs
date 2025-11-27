@@ -7,44 +7,33 @@ namespace Aplicacao.Imobiliaria.Servicos;
 public class ImovelService : IImovelService {
 
     private IImovelRepository ImovelRepository;
+    private ICaracteristicaRepository caracteristicaRepository;
 
-    public ImovelService(IImovelRepository ImovelRepository) {
+    public ImovelService(IImovelRepository ImovelRepository, ICaracteristicaRepository caracteristicaRepository) {
         this.ImovelRepository = ImovelRepository;
+        this.caracteristicaRepository = caracteristicaRepository;
     }
 
-    public async Task<int> Criar(ImovelDTO imovelDTO) {
+    public async Task<int> Criar(ImovelDTO imovelDTO)
+    {
         var imovel = new Imovel();
-        imovel.Atualizar(imovelDTO.TipoImovel, imovelDTO.Area, imovelDTO.Quartos, imovelDTO.VagasGaragem, imovelDTO.Valor);
 
-        // --- REMOVER ---
-        var novos_IC_Ids = imovelDTO.ImovelCaracteristicas?.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
-        var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => !novos_IC_Ids.Contains(ic.CaracteristicaId));
-        foreach (var ic in paraRemover)
-            imovel.RemoverCaracteristica(ic);
-
-        // --- ADICIONAR ---
-        var paraAdicionar = imovelDTO.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0);
-        foreach (var ic in paraAdicionar) {
-
-            //TODO: Continuar aqui.
-            imovel.AdicionarCaracteristica(ic);
-
-        }
-
+        await AtualizarImovelComDTO(imovelDTO, imovel);
 
         await ImovelRepository.Criar(imovel);
+
         return imovel.Id;
     }
 
     public async Task Atualizar(int id, ImovelDTO ImovelDTO) {
-        var Imovel = await ImovelRepository.ObterPorId(id);
+        var imovel = await ImovelRepository.ObterPorId(id);
 
-        if (Imovel == null)
+        if (imovel == null)
             throw new KeyNotFoundException($"Imovel with Id {id} not found.");
 
-        Imovel.Atualizar(ImovelDTO.TipoImovel, ImovelDTO.Area, ImovelDTO.Quartos, ImovelDTO.VagasGaragem, ImovelDTO.Valor, ImovelDTO.ImovelCaracteristicas);
+        await AtualizarImovelComDTO(ImovelDTO, imovel);
 
-        await ImovelRepository.Atualizar(Imovel);
+        await ImovelRepository.Atualizar(imovel);
     }
 
     public async Task Excluir(int? id) {
@@ -67,23 +56,48 @@ public class ImovelService : IImovelService {
             throw new KeyNotFoundException($"Imovel with Id {id} not found.");
         }
 
-        return new ImovelDTO {
-            TipoImovel = Imovel.TipoImovel,
-            Area = Imovel.Area,
-            Quartos = Imovel.Quartos,
-            VagasGaragem = Imovel.VagasGaragem,
-            Valor = Imovel.Valor
-        };
+        return new ImovelDTO (
+            Imovel.Id,
+            Imovel.TipoImovel,  
+            Imovel.Area,
+            Imovel.Quartos,
+            Imovel.VagasGaragem,
+            Imovel.Valor,
+            null
+        );
     }
     public async Task<IEnumerable<ImovelDTO>> ObterImoveis() {
         var unidadesFederacao = await ImovelRepository.Obter();
 
-        return unidadesFederacao.Select(i => new ImovelDTO {
-            TipoImovel = i.TipoImovel,
-            Area = i.Area,
-            Quartos = i.Quartos,
-            VagasGaragem = i.VagasGaragem,
-            Valor = i.Valor
-        });
+        return unidadesFederacao.Select(i => new ImovelDTO(
+            i.Id,
+            i.TipoImovel,
+            i.Area,
+            i.Quartos,
+            i.VagasGaragem,
+            i.Valor,
+            null
+        ));
+    }
+
+    private async Task AtualizarImovelComDTO(ImovelDTO imovelDTO, Imovel imovel)
+    {
+        var caracteristicas = await caracteristicaRepository.ObterTodas();
+
+        imovel.Atualizar(imovelDTO.TipoImovel, imovelDTO.Area, imovelDTO.Quartos, imovelDTO.VagasGaragem, imovelDTO.Valor);
+
+        // --- REMOVER ---
+        var novos_IC_Ids = imovelDTO.ImovelCaracteristicas?.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
+        var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => !novos_IC_Ids.Contains(ic.CaracteristicaId));
+        foreach (var ic in paraRemover)
+            imovel.RemoverCaracteristica(ic);
+
+        // --- ADICIONAR ---
+        var paraAdicionar = imovelDTO.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0);
+        foreach (var ic in paraAdicionar)
+        {
+            var caracteristica = caracteristicas.FirstOrDefault(c => c.Id == ic.CaracteristicaId);
+            imovel.AdicionarCaracteristica(caracteristica);
+        }
     }
 }

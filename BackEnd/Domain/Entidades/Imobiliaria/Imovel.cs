@@ -26,8 +26,8 @@ public class Imovel {
         Valor = valor;
     }
 
-    public void AdicionarCaracteristica(Imovel imovel, Caracteristica caracteristica) {
-        var imovelCaracteristica = new ImovelCaracteristica(imovel, caracteristica);
+    public void AdicionarCaracteristica(Caracteristica caracteristica) {
+        var imovelCaracteristica = new ImovelCaracteristica(this, caracteristica);
         ImoveisCaracteristicas.Add(imovelCaracteristica);
     }
 

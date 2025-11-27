@@ -1,5 +1,7 @@
 using Aplicacao.Endereco.Interfaces;
 using Aplicacao.Endereco.Servicos;
+using Aplicacao.Imobiliaria.Interfaces;
+using Aplicacao.Imobiliaria.Servicos;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;
@@ -44,8 +46,12 @@ static void ConfiguraRepositorio(WebApplicationBuilder builder) {
     );
 
     builder.Services.AddScoped<IUnidadeFederacaoRepository, UnidadeFederacaoRepository>();
+    builder.Services.AddScoped<ICaracteristicaRepository, CaracteristicaRepository>();
+    builder.Services.AddScoped<IImovelRepository, ImovelRepository>();
 }
 
 static void ConfiguraService(WebApplicationBuilder builder) {
-    builder.Services.AddScoped<IUnidadeFederacaoService, ImovelService>();
+    builder.Services.AddScoped<IUnidadeFederacaoService, UnidadeFederacaoService>();
+    builder.Services.AddScoped<ICaracteristicaService, CaracteristicaService>();
+    builder.Services.AddScoped<IImovelService, ImovelService>();
 }

@@ -4,11 +4,11 @@ using Dominio.Entidades.EnderecoNS;
 using Repositorio.Interfaces;
 
 namespace Aplicacao.Endereco.Servicos;
-public class ImovelService : IUnidadeFederacaoService {
+public class UnidadeFederacaoService : IUnidadeFederacaoService {
 
     private IUnidadeFederacaoRepository unidadeFederacaoRepository;
 
-    public ImovelService(IUnidadeFederacaoRepository unidadeFederacaoRepository) {
+    public UnidadeFederacaoService(IUnidadeFederacaoRepository unidadeFederacaoRepository) {
         this.unidadeFederacaoRepository = unidadeFederacaoRepository;
     }
 
