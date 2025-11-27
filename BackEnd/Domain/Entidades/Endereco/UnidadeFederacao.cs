@@ -9,7 +9,7 @@ namespace Dominio.Entidades.EnderecoNS {
         public string Nome { get; private set; }
 
         public UnidadeFederacao(string nome) {
-            Nome = nome;
+            Atualizar(nome);
         }
 
         public void Atualizar(string nome) {

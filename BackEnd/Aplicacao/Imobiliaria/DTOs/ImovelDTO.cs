@@ -11,5 +11,5 @@ public record ImovelDTO(
     decimal Valor,
     ImovelCaracteristicaDTO[] ImovelCaracteristicas
 ) {
-    public ImovelCaracteristicaDTO[] ImovelCaracteristicas { get; init; } = ImovelCaracteristicas ?? Array.Empty<ImovelCaracteristicaDTO>();
+    public ImovelCaracteristicaDTO[] ImovelCaracteristicas { get; init; } = ImovelCaracteristicas ?? [];
 }

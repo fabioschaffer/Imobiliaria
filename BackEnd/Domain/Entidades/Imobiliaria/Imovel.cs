@@ -1,8 +1,6 @@
 ﻿using Dominio.Entidades.EnderecoNS;
 using Dominio.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection.PortableExecutable;
-using System.Linq;
 
 namespace Dominio.Entidades.Imobiliaria;
 
