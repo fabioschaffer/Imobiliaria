@@ -18,8 +18,8 @@ public class ImovelService : IImovelService {
     public async Task<Imovel> Criar(ImovelDTO imovelDTO) {
         var imovel = new Imovel();
 
-        //AtualizarDadosImovel(imovel, imovelDTO);
-        //await AtualizarCaracteristicasImovel(imovel, imovelDTO);
+        AtualizarDadosImovel(imovel, imovelDTO);
+        await AtualizarCaracteristicasImovel(imovel, imovelDTO);
 
         await ImovelRepository.Criar(imovel);
 

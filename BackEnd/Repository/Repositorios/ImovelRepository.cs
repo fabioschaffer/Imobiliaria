@@ -11,10 +11,9 @@ public class ImovelRepository : IImovelRepository {
     public ImovelRepository(AplicacaoDbContext contexto) {
         this.contexto = contexto;
     }
-    public async Task<int> Criar(Imovel Imovel) {
-        contexto.Add(Imovel);
+    public async Task Criar(Imovel imovel) {
+        contexto.Add(imovel);
         await contexto.SaveChangesAsync();
-        return Imovel.Id;
     }
 
     public async Task Atualizar(Imovel Imovel) {
