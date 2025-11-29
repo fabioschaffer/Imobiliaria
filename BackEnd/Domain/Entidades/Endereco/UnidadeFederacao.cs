@@ -5,6 +5,7 @@ namespace Dominio.Entidades.EnderecoNS {
 
     [Table(nameof(UnidadeFederacao), Schema = nameof(Schemas.Endereco))]
     public class UnidadeFederacao {
+
         public int Id { get; private set; }
         public string Nome { get; private set; }
 
@@ -13,8 +14,10 @@ namespace Dominio.Entidades.EnderecoNS {
         }
 
         public void Atualizar(string nome) {
+            if (string.IsNullOrWhiteSpace(nome))
+                throw new ArgumentNullException(nameof(nome));
+
             Nome = nome;
         }
-
     }
 }

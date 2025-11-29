@@ -25,6 +25,10 @@ public class Imovel {
     }
 
     public void AdicionarCaracteristica(Caracteristica caracteristica) {
+
+        if (caracteristica is null)
+            throw new ArgumentNullException(nameof(caracteristica));
+
         var imovelCaracteristica = new ImovelCaracteristica(this, caracteristica);
         ImoveisCaracteristicas.Add(imovelCaracteristica);
     }

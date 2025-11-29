@@ -13,7 +13,7 @@ public class ImoveisCaracteristicasConfiguration : IEntityTypeConfiguration<Imov
 
         builder
             .HasOne(ic => ic.Caracteristica)
-            .WithMany(c => c.ImoveisCaracteristicasBB)
+            .WithMany(c => c.ImoveisCaracteristicas)
             .HasForeignKey(ic => ic.CaracteristicaId);
 
         builder.HasIndex(ic => new { ic.ImovelId, ic.CaracteristicaId }).IsUnique();

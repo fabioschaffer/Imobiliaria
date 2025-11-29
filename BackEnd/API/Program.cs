@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;
 using Repositorio.Repositorios;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,8 +43,23 @@ app.Run();
 
 static void ConfiguraRepositorio(WebApplicationBuilder builder) {
     builder.Services.AddDbContext<AplicacaoDbContext>(
-        options => options.UseSqlServer(builder.Configuration["ConnectionStrings:Imobiliaria"])
-    );
+        options =>
+        {
+            var provider = builder.Configuration["Database:Provider"];
+            var connection = string.Empty;
+            if (provider == "SQLServer")
+            {
+                connection = builder.Configuration["Database:ConnectionString_SQLServer"];
+                options.UseSqlServer(connection);
+            }
+            else if (provider == "SQLite")
+            {
+                connection = builder.Configuration["Database:ConnectionString_SQLite"];
+                options.UseSqlite(connection);
+            }
+            else
+                throw new Exception("Provider de banco inválido");
+        });
 
     builder.Services.AddScoped<IUnidadeFederacaoRepository, UnidadeFederacaoRepository>();
     builder.Services.AddScoped<ICaracteristicaRepository, CaracteristicaRepository>();

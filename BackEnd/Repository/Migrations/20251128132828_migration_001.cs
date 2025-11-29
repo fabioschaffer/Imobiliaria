@@ -10,13 +10,20 @@ namespace Repositorio.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Imobiliaria");
+
+            migrationBuilder.EnsureSchema(
+                name: "Endereco");
+
             migrationBuilder.CreateTable(
                 name: "Caracteristica",
+                schema: "Imobiliaria",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Descricao = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,11 +32,12 @@ namespace Repositorio.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UnidadeFederacao",
+                schema: "Endereco",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,12 +46,13 @@ namespace Repositorio.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Cidade",
+                schema: "Endereco",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UnidadeFederacaoId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: false),
+                    UnidadeFederacaoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,6 +60,7 @@ namespace Repositorio.Migrations
                     table.ForeignKey(
                         name: "FK_Cidade_UnidadeFederacao_UnidadeFederacaoId",
                         column: x => x.UnidadeFederacaoId,
+                        principalSchema: "Endereco",
                         principalTable: "UnidadeFederacao",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -58,15 +68,16 @@ namespace Repositorio.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Endereco",
+                schema: "Endereco",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CEP = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Logradouro = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Numero = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Complemento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CidadeId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CEP = table.Column<string>(type: "TEXT", nullable: false),
+                    Logradouro = table.Column<string>(type: "TEXT", nullable: false),
+                    Numero = table.Column<string>(type: "TEXT", nullable: false),
+                    Complemento = table.Column<string>(type: "TEXT", nullable: false),
+                    CidadeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,6 +85,7 @@ namespace Repositorio.Migrations
                     table.ForeignKey(
                         name: "FK_Endereco_Cidade_CidadeId",
                         column: x => x.CidadeId,
+                        principalSchema: "Endereco",
                         principalTable: "Cidade",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -81,16 +93,17 @@ namespace Repositorio.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Imovel",
+                schema: "Imobiliaria",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TipoImovel = table.Column<int>(type: "int", nullable: false),
-                    Area = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quartos = table.Column<byte>(type: "tinyint", nullable: false),
-                    VagasGaragem = table.Column<byte>(type: "tinyint", nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EnderecoId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TipoImovel = table.Column<int>(type: "INTEGER", nullable: false),
+                    Area = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Quartos = table.Column<byte>(type: "INTEGER", nullable: false),
+                    VagasGaragem = table.Column<byte>(type: "INTEGER", nullable: false),
+                    Valor = table.Column<decimal>(type: "TEXT", nullable: false),
+                    EnderecoId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,19 +111,20 @@ namespace Repositorio.Migrations
                     table.ForeignKey(
                         name: "FK_Imovel_Endereco_EnderecoId",
                         column: x => x.EnderecoId,
+                        principalSchema: "Endereco",
                         principalTable: "Endereco",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "ImovelCaracteristica",
+                schema: "Imobiliaria",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImovelId = table.Column<int>(type: "int", nullable: false),
-                    CaracteristicaId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ImovelId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CaracteristicaId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,12 +132,14 @@ namespace Repositorio.Migrations
                     table.ForeignKey(
                         name: "FK_ImovelCaracteristica_Caracteristica_CaracteristicaId",
                         column: x => x.CaracteristicaId,
+                        principalSchema: "Imobiliaria",
                         principalTable: "Caracteristica",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ImovelCaracteristica_Imovel_ImovelId",
                         column: x => x.ImovelId,
+                        principalSchema: "Imobiliaria",
                         principalTable: "Imovel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -131,26 +147,31 @@ namespace Repositorio.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cidade_UnidadeFederacaoId",
+                schema: "Endereco",
                 table: "Cidade",
                 column: "UnidadeFederacaoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endereco_CidadeId",
+                schema: "Endereco",
                 table: "Endereco",
                 column: "CidadeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Imovel_EnderecoId",
+                schema: "Imobiliaria",
                 table: "Imovel",
                 column: "EnderecoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImovelCaracteristica_CaracteristicaId",
+                schema: "Imobiliaria",
                 table: "ImovelCaracteristica",
                 column: "CaracteristicaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImovelCaracteristica_ImovelId_CaracteristicaId",
+                schema: "Imobiliaria",
                 table: "ImovelCaracteristica",
                 columns: new[] { "ImovelId", "CaracteristicaId" },
                 unique: true);
@@ -160,22 +181,28 @@ namespace Repositorio.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ImovelCaracteristica");
+                name: "ImovelCaracteristica",
+                schema: "Imobiliaria");
 
             migrationBuilder.DropTable(
-                name: "Caracteristica");
+                name: "Caracteristica",
+                schema: "Imobiliaria");
 
             migrationBuilder.DropTable(
-                name: "Imovel");
+                name: "Imovel",
+                schema: "Imobiliaria");
 
             migrationBuilder.DropTable(
-                name: "Endereco");
+                name: "Endereco",
+                schema: "Endereco");
 
             migrationBuilder.DropTable(
-                name: "Cidade");
+                name: "Cidade",
+                schema: "Endereco");
 
             migrationBuilder.DropTable(
-                name: "UnidadeFederacao");
+                name: "UnidadeFederacao",
+                schema: "Endereco");
         }
     }
 }
