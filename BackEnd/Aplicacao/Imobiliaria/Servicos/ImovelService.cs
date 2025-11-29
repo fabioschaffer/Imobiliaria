@@ -16,23 +16,23 @@ public class ImovelService : IImovelService {
     public async Task<Imovel> Criar(ImovelDTO imovelDTO) {
         var imovel = new Imovel();
 
-        AtualizarDadosImovel(imovel, imovelDTO);
-        AtualizarCaracteristicasImovel(imovel, imovelDTO);
+        AtualizarImovel(imovelDTO, imovel);
 
         await ImovelRepository.Criar(imovel);
 
         return imovel;
     }
 
-    public async Task Atualizar(int id, ImovelDTO imovelDTO) {
+    public async Task<Imovel> Atualizar(int id, ImovelDTO imovelDTO) {
         var imovel = await ImovelRepository.ObterPorId(id);
 
-        ValidacaoHelper.Validar(imovel == null, $"Imovel with Id {id} not found.");
+        ValidacaoHelper.Validar(imovel == null, $"Imóvel com Id {id} não encontrado.");
 
-        AtualizarDadosImovel(imovel, imovelDTO);
-        AtualizarCaracteristicasImovel(imovel, imovelDTO);
+        AtualizarImovel(imovelDTO, imovel);
 
         await ImovelRepository.Atualizar(imovel);
+
+        return imovel;  
     }
 
     public async Task Excluir(int? id) {
@@ -79,22 +79,27 @@ public class ImovelService : IImovelService {
         ));
     }
 
-    private void AtualizarCaracteristicasImovel(Imovel imovel, ImovelDTO imovelDTO) {
-        
-        // --- REMOVER ---
-        var novos_IC_Ids = imovelDTO.ImovelCaracteristicas.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
-        var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => !novos_IC_Ids.Contains(ic.CaracteristicaId));
-        foreach (var ic in paraRemover)
-            imovel.RemoverCaracteristica(ic);
+    private void AtualizarImovel(ImovelDTO imovelDTO, Imovel imovel) {
+        AtualizarDadosImovel(imovel, imovelDTO);
+        AdicionarCaracteristicasImovel(imovel, imovelDTO);
+        RemoverCaracteristicasImovel(imovel, imovelDTO);
+    }
 
-        // --- ADICIONAR ---
-        var paraAdicionar = imovelDTO.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0);
+    private static void AtualizarDadosImovel(Imovel imovel, ImovelDTO dto) {
+        imovel.Atualizar(dto.TipoImovel, dto.Area, dto.Quartos, dto.VagasGaragem, dto.Valor);
+    }
+
+    private void AdicionarCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
+        var paraAdicionar = dto.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0).ToList();
         foreach (var ic in paraAdicionar) {
             imovel.AdicionarCaracteristica(ic.CaracteristicaId);
         }
     }
 
-    private static void AtualizarDadosImovel(Imovel imovel, ImovelDTO imovelDTO) {
-        imovel.Atualizar(imovelDTO.TipoImovel, imovelDTO.Area, imovelDTO.Quartos, imovelDTO.VagasGaragem, imovelDTO.Valor);
+    private void RemoverCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
+        var novos_IC_Ids = dto.ImovelCaracteristicas.Select(s => s.ImovelCaracteristicaId).ToList() ?? new List<int>();
+        var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => ic.Id != 0 && !novos_IC_Ids.Contains(ic.CaracteristicaId)).ToList();
+        foreach (var ic in paraRemover)
+            imovel.RemoverCaracteristica(ic);
     }
 }

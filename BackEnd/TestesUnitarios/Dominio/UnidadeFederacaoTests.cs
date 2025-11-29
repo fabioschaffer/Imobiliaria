@@ -1,7 +1,7 @@
 ﻿using Dominio.Entidades.EnderecoNS;
 using Xunit;
 
-namespace TestesUnitarios;
+namespace TestesUnitarios.Dominio;
 
 public class UnidadeFederacaoTests {
 

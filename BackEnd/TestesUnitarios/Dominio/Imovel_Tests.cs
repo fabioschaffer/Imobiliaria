@@ -1,17 +1,12 @@
-﻿using Dominio.Entidades.EnderecoNS;
-using Xunit;
-
-namespace TestesUnitarios;
-
+﻿using Xunit;
 using Dominio.Entidades.Imobiliaria;
 using Dominio.Enums;
-using Xunit;
 
-public class ImovelTests
-{
+namespace TestesUnitarios.Dominio;
+
+public class Imovel_Tests {
     [Fact]
-    public void Atualizar_DeveAtualizarTodosOsCampos()
-    {
+    public void Atualizar_DeveAtualizarTodosOsCampos() {
         // Arrange
         var imovel = new Imovel();
 
@@ -33,28 +28,26 @@ public class ImovelTests
     }
 
     [Fact]
-    public void AdicionarCaracteristica_DeveAdicionarRelacionamento()
-    {
+    public void AdicionarCaracteristica_DeveAdicionarRelacionamento() {
         // Arrange
         var imovel = new Imovel();
-        var caracteristica = new Caracteristica("Piscina");
+        var caracteristicaId = 1;
 
         // Act
-        imovel.AdicionarCaracteristica(caracteristica);
+        imovel.AdicionarCaracteristica(caracteristicaId);
 
         // Assert
         Assert.Single(imovel.ImoveisCaracteristicas);
         Assert.Equal(imovel, imovel.ImoveisCaracteristicas.First().Imovel);
-        Assert.Equal(caracteristica, imovel.ImoveisCaracteristicas.First().Caracteristica);
+        Assert.Equal(caracteristicaId, imovel.ImoveisCaracteristicas.First().CaracteristicaId);
     }
 
     [Fact]
-    public void RemoverCaracteristica_DeveRemoverRelacionamento()
-    {
+    public void RemoverCaracteristica_DeveRemoverRelacionamento() {
         // Arrange
         var imovel = new Imovel();
-        var caracteristica = new Caracteristica("Piscina");
-        imovel.AdicionarCaracteristica(caracteristica);
+        var caracteristicaId = 1;
+        imovel.AdicionarCaracteristica(caracteristicaId);
         var imovelCaracteristica = imovel.ImoveisCaracteristicas.First();
 
         // Act
@@ -62,18 +55,5 @@ public class ImovelTests
 
         // Assert
         Assert.Empty(imovel.ImoveisCaracteristicas);
-    }
-
-    [Fact]
-    public void AdicionarCaracteristica_QuandoCaracteristicaNula_DeveLancarExcecao()
-    {
-        // Arrange
-        var imovel = new Imovel();
-
-        // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
-        {
-            imovel.AdicionarCaracteristica(null!);
-        });
     }
 }
