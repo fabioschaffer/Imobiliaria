@@ -2,6 +2,7 @@
 using Aplicacao.Imobiliaria.Interfaces;
 using Dominio.Entidades.Imobiliaria;
 using Repositorio.Interfaces;
+using Util;
 
 namespace Aplicacao.Imobiliaria.Servicos;
 public class ImovelService : IImovelService {
@@ -14,24 +15,24 @@ public class ImovelService : IImovelService {
         this.caracteristicaRepository = caracteristicaRepository;
     }
 
-    public async Task<int> Criar(ImovelDTO imovelDTO)
-    {
+    public async Task<Imovel> Criar(ImovelDTO imovelDTO) {
         var imovel = new Imovel();
 
-        await AtualizarImovelComDTO(imovelDTO, imovel);
+        //AtualizarDadosImovel(imovel, imovelDTO);
+        //await AtualizarCaracteristicasImovel(imovel, imovelDTO);
 
         await ImovelRepository.Criar(imovel);
 
-        return imovel.Id;
+        return imovel;
     }
 
-    public async Task Atualizar(int id, ImovelDTO ImovelDTO) {
+    public async Task Atualizar(int id, ImovelDTO imovelDTO) {
         var imovel = await ImovelRepository.ObterPorId(id);
 
-        if (imovel == null)
-            throw new KeyNotFoundException($"Imovel with Id {id} not found.");
+        ValidacaoHelper.Validar(imovel == null, $"Imovel with Id {id} not found.");
 
-        await AtualizarImovelComDTO(ImovelDTO, imovel);
+        AtualizarDadosImovel(imovel, imovelDTO);
+        await AtualizarCaracteristicasImovel(imovel, imovelDTO);
 
         await ImovelRepository.Atualizar(imovel);
     }
@@ -56,9 +57,9 @@ public class ImovelService : IImovelService {
             throw new KeyNotFoundException($"Imovel with Id {id} not found.");
         }
 
-        return new ImovelDTO (
+        return new ImovelDTO(
             Imovel.Id,
-            Imovel.TipoImovel,  
+            Imovel.TipoImovel,
             Imovel.Area,
             Imovel.Quartos,
             Imovel.VagasGaragem,
@@ -80,11 +81,8 @@ public class ImovelService : IImovelService {
         ));
     }
 
-    private async Task AtualizarImovelComDTO(ImovelDTO imovelDTO, Imovel imovel)
-    {
+    private async Task AtualizarCaracteristicasImovel(Imovel imovel, ImovelDTO imovelDTO) {
         var caracteristicas = await caracteristicaRepository.ObterTodas();
-
-        imovel.Atualizar(imovelDTO.TipoImovel, imovelDTO.Area, imovelDTO.Quartos, imovelDTO.VagasGaragem, imovelDTO.Valor);
 
         // --- REMOVER ---
         var novos_IC_Ids = imovelDTO.ImovelCaracteristicas.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
@@ -94,10 +92,13 @@ public class ImovelService : IImovelService {
 
         // --- ADICIONAR ---
         var paraAdicionar = imovelDTO.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0);
-        foreach (var ic in paraAdicionar)
-        {
+        foreach (var ic in paraAdicionar) {
             var caracteristica = caracteristicas.FirstOrDefault(c => c.Id == ic.CaracteristicaId);
             imovel.AdicionarCaracteristica(caracteristica);
         }
+    }
+
+    private static void AtualizarDadosImovel(Imovel imovel, ImovelDTO imovelDTO) {
+        imovel.Atualizar(imovelDTO.TipoImovel, imovelDTO.Area, imovelDTO.Quartos, imovelDTO.VagasGaragem, imovelDTO.Valor);
     }
 }

@@ -1,5 +1,6 @@
 using Aplicacao.Imobiliaria.DTOs;
 using Aplicacao.Imobiliaria.Interfaces;
+using Dominio.Entidades.Imobiliaria;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Imobiliaria;
@@ -16,8 +17,8 @@ public class ImovelController : ControllerBase {
 
     [HttpPost]
     public async Task<int> Criar([FromBody] ImovelDTO ImovelDTO) {
-        var id = await ImovelService.Criar(ImovelDTO);
-        return id;
+        var imovel = await ImovelService.Criar(ImovelDTO);
+        return imovel.Id;
     }
 
     [HttpPut("{id}")]
