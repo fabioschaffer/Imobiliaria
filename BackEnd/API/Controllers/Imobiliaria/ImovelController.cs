@@ -1,6 +1,5 @@
 using Aplicacao.Imobiliaria.DTOs;
 using Aplicacao.Imobiliaria.Interfaces;
-using Dominio.Entidades.Imobiliaria;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Imobiliaria;

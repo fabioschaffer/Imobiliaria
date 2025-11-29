@@ -13,10 +13,9 @@ public class ImovelCaracteristica {
 
     private ImovelCaracteristica() { }
 
-    public ImovelCaracteristica(Imovel imovel, Caracteristica caracteristica) {
+    public ImovelCaracteristica(Imovel imovel, int caracteristicaId) {
         Imovel = imovel;
         ImovelId = imovel.Id;
-        Caracteristica = caracteristica;
-        CaracteristicaId = caracteristica.Id;
+        CaracteristicaId = caracteristicaId;
     }
 }

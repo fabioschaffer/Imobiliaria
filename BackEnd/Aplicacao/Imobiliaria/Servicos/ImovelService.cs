@@ -8,18 +8,16 @@ namespace Aplicacao.Imobiliaria.Servicos;
 public class ImovelService : IImovelService {
 
     private IImovelRepository ImovelRepository;
-    private ICaracteristicaRepository caracteristicaRepository;
 
-    public ImovelService(IImovelRepository ImovelRepository, ICaracteristicaRepository caracteristicaRepository) {
+    public ImovelService(IImovelRepository ImovelRepository) {
         this.ImovelRepository = ImovelRepository;
-        this.caracteristicaRepository = caracteristicaRepository;
     }
 
     public async Task<Imovel> Criar(ImovelDTO imovelDTO) {
         var imovel = new Imovel();
 
         AtualizarDadosImovel(imovel, imovelDTO);
-        await AtualizarCaracteristicasImovel(imovel, imovelDTO);
+        AtualizarCaracteristicasImovel(imovel, imovelDTO);
 
         await ImovelRepository.Criar(imovel);
 
@@ -32,7 +30,7 @@ public class ImovelService : IImovelService {
         ValidacaoHelper.Validar(imovel == null, $"Imovel with Id {id} not found.");
 
         AtualizarDadosImovel(imovel, imovelDTO);
-        await AtualizarCaracteristicasImovel(imovel, imovelDTO);
+        AtualizarCaracteristicasImovel(imovel, imovelDTO);
 
         await ImovelRepository.Atualizar(imovel);
     }
@@ -81,9 +79,8 @@ public class ImovelService : IImovelService {
         ));
     }
 
-    private async Task AtualizarCaracteristicasImovel(Imovel imovel, ImovelDTO imovelDTO) {
-        var caracteristicas = await caracteristicaRepository.ObterTodas();
-
+    private void AtualizarCaracteristicasImovel(Imovel imovel, ImovelDTO imovelDTO) {
+        
         // --- REMOVER ---
         var novos_IC_Ids = imovelDTO.ImovelCaracteristicas.Select(c => c.ImovelCaracteristicaId).ToList() ?? new List<int>();
         var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => !novos_IC_Ids.Contains(ic.CaracteristicaId));
@@ -93,8 +90,7 @@ public class ImovelService : IImovelService {
         // --- ADICIONAR ---
         var paraAdicionar = imovelDTO.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0);
         foreach (var ic in paraAdicionar) {
-            var caracteristica = caracteristicas.FirstOrDefault(c => c.Id == ic.CaracteristicaId);
-            imovel.AdicionarCaracteristica(caracteristica);
+            imovel.AdicionarCaracteristica(ic.CaracteristicaId);
         }
     }
 

@@ -24,12 +24,12 @@ public class Imovel {
         Valor = valor;
     }
 
-    public void AdicionarCaracteristica(Caracteristica caracteristica) {
+    public void AdicionarCaracteristica(int caracteristicaId) {
 
-        if (caracteristica is null)
-            throw new ArgumentNullException(nameof(caracteristica));
+        //if (caracteristica is null)
+        //    throw new ArgumentNullException(nameof(caracteristica));
 
-        var imovelCaracteristica = new ImovelCaracteristica(this, caracteristica);
+        var imovelCaracteristica = new ImovelCaracteristica(this, caracteristicaId);
         ImoveisCaracteristicas.Add(imovelCaracteristica);
     }
 
