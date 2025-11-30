@@ -13,7 +13,12 @@ public class Imovel {
     public byte VagasGaragem { get; private set; }
     public decimal Valor { get; private set; }
     public Endereco? Endereco { get; private set; }
-    public ICollection<ImovelCaracteristica> ImoveisCaracteristicas { get; private set; } = new List<ImovelCaracteristica>();
+
+    //public ICollection<ImovelCaracteristica> ImoveisCaracteristicas { get; private set; } = new List<ImovelCaracteristica>();
+
+    private readonly List<ImovelCaracteristica> _imoveisCaracteristicas = new();
+    public IReadOnlyCollection<ImovelCaracteristica> ImoveisCaracteristicas => _imoveisCaracteristicas;
+
     public Imovel() { }
 
     public void Atualizar(TipoImovel tipoImovel, decimal area, byte quartos, byte vagasGaragem, decimal valor) {
@@ -30,11 +35,11 @@ public class Imovel {
         //    throw new ArgumentNullException(nameof(caracteristica));
 
         var imovelCaracteristica = new ImovelCaracteristica(this, caracteristicaId);
-        ImoveisCaracteristicas.Add(imovelCaracteristica);
+        _imoveisCaracteristicas.Add(imovelCaracteristica);
     }
 
     public void RemoverCaracteristica(ImovelCaracteristica imovelCaracteristica) {
-        ImoveisCaracteristicas.Remove(imovelCaracteristica);
+        _imoveisCaracteristicas.Remove(imovelCaracteristica);
     }
 
 }

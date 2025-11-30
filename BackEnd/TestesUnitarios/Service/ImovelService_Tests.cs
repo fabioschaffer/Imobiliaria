@@ -63,13 +63,11 @@ namespace TestesUnitarios.Service {
         [Fact]
         public async Task AtualizarImovel_CaracteristicaAdicionada_CarracteristicaRemovida() {
 
-
-            //TODO: Continuar aqui.
-
-
             // Arrange
             ImovelDTO dto = CriaDTO_ComCaracteristica_A_Adicionar_E_A_Remover();
-            var imovel = CriaImovel();
+            
+            var imovel = CriaImovelComCaracteristica(dto.Id,1, 100);
+
             ImovelRepo.Setup(r => r.ObterPorId(dto.Id)).ReturnsAsync(imovel);
 
             // Act
@@ -127,19 +125,29 @@ namespace TestesUnitarios.Service {
                     );
         }
 
-        private async Task<Imovel> CriaImovel() {
-            // Arrange
-            var dto = CriaDTO_ComCaracteristica();
-            foreach (var caracteristica in dto.ImovelCaracteristicas) {
-                caracteristica.ImovelCaracteristicaId = 1; // Mocking the Id
-            }
+        private Imovel CriaImovelComCaracteristica(int imovelId, int caracteristicaId, int imovelCaracteristicaId) {
+            var imovel = new Imovel();
 
-            // Act
-            var imovel = await ImovelService.Criar(dto);
+            // Força o Id usando reflexão
+            typeof(Imovel)
+                .GetProperty("Id")
+                .SetValue(imovel, imovelId);
 
-            // Return
+            var imovelCaracteristica = new ImovelCaracteristica(imovel, caracteristicaId);
+
+            // Força o Id usando reflexão
+            typeof(ImovelCaracteristica)
+                .GetProperty("Id")
+                .SetValue(imovelCaracteristica, imovelCaracteristicaId);
+
+            // Adiciona a característica à lista privada usando reflexão
+            var imoveisCaracteristicasField = typeof(Imovel)
+                .GetField("_imoveisCaracteristicas", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            var imoveisCaracteristicasList = (List<ImovelCaracteristica>)imoveisCaracteristicasField.GetValue(imovel)!;
+            imoveisCaracteristicasList.Add(imovelCaracteristica);
+
             return imovel;
         }
-
     }
 }
