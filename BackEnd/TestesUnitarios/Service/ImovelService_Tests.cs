@@ -53,8 +53,10 @@ namespace TestesUnitarios.Service {
 
             // Arrange
             ImovelDTO dto = CriaDTO_ComCaracteristica_A_Adicionar();
-            
-            var imovel = CriaImovelComCaracteristica(dto.Id,1, 100);
+
+            var imovel = CriaImovelComCaracteristica(
+                dto.Id,
+                [new ImovelCaracteristicaRecord(1, 1)]);
 
             ImovelRepo.Setup(r => r.ObterPorId(dto.Id)).ReturnsAsync(imovel);
 
@@ -69,11 +71,26 @@ namespace TestesUnitarios.Service {
 
         [Fact]
         public async Task AtualizarImovel_ImovelComCaracteristiscaARemover_CarracteristicaRemovida() {
+            // Arrange
+            ImovelDTO dto = CriaDTO_ComCaracteristica_A_Remover();
 
-            //TODO: Continuar aqui. Criar esse teste unitário. É semelhante ao teste acima.
+            var imovel = CriaImovelComCaracteristica(
+                           dto.Id,
+                           new ImovelCaracteristicaRecord[] {
+                               new(1, 1),
+                               new(2, 2),
+                           }
+                );
 
+            ImovelRepo.Setup(r => r.ObterPorId(dto.Id)).ReturnsAsync(imovel);
+
+            // Act
+            var imovelAtualizado = await ImovelService.Atualizar(dto.Id, dto);
+
+            // Assert
+            Assert.True(imovelAtualizado.ImoveisCaracteristicas.Count == 1);
+            Assert.Contains(imovelAtualizado.ImoveisCaracteristicas, ic => ic.CaracteristicaId == 1);
         }
-
 
         private ImovelDTO CriaDTO() {
             return new ImovelDTO(
@@ -128,20 +145,50 @@ namespace TestesUnitarios.Service {
                     );
         }
 
-        private Imovel CriaImovelComCaracteristica(int imovelId, int caracteristicaId, int imovelCaracteristicaId) {
+        private ImovelDTO CriaDTO_ComCaracteristica_A_Remover() {
+            return new ImovelDTO(
+                       Id: 1,
+                       TipoImovel: TipoImovel.Casa,
+                       Area: 100,
+                       Quartos: 3,
+                       VagasGaragem: 2,
+                       Valor: 200000,
+                       ImovelCaracteristicas: new List<ImovelCaracteristicaDTO> {
+                           new ImovelCaracteristicaDTO(
+                               Acao: Acao.Editar,
+                               ImovelCaracteristicaId: 1,
+                               CaracteristicaId: 1
+                           ),
+                           new ImovelCaracteristicaDTO(
+                               Acao: Acao.Remover,
+                               ImovelCaracteristicaId: 2,
+                               CaracteristicaId: 2
+                           )
+                       }.ToArray()
+                    );
+        }
+
+        private Imovel CriaImovelComCaracteristica(int imovelId, ImovelCaracteristicaRecord[] imovelCaracteristicas) {
 
             var imovel = new Imovel();
             typeof(Imovel).GetProperty("Id").SetValue(imovel, imovelId); // Seta o Id por reflexão (pois é privado).
 
-            var imovelCaracteristica = new ImovelCaracteristica(imovel, caracteristicaId);
-            typeof(ImovelCaracteristica).GetProperty("Id").SetValue(imovelCaracteristica, imovelCaracteristicaId); // Seta o Id por reflexão (pois é privado).
+            foreach (var item in imovelCaracteristicas) {
+                var imovelCaracteristica = new ImovelCaracteristica(imovel, item.caracteristicaId);
+                typeof(ImovelCaracteristica).GetProperty("Id").SetValue(imovelCaracteristica, item.imovelCaracteristicaId); // Seta o Id por reflexão (pois é privado).
 
-            // Adiciona a característica ao imóvel usando reflexão (pois é privado).
-            var imoveisCaracteristicasField = typeof(Imovel).GetField("_imoveisCaracteristicas", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var imoveisCaracteristicasList = (List<ImovelCaracteristica>)imoveisCaracteristicasField.GetValue(imovel)!;
-            imoveisCaracteristicasList.Add(imovelCaracteristica);
+                // Adiciona a característica ao imóvel usando reflexão (pois é privado).
+                var imoveisCaracteristicasField = typeof(Imovel).GetField("_imoveisCaracteristicas", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var imoveisCaracteristicasList = (List<ImovelCaracteristica>)imoveisCaracteristicasField.GetValue(imovel)!;
+                imoveisCaracteristicasList.Add(imovelCaracteristica);
+            }
 
             return imovel;
         }
+
+        public record ImovelCaracteristicaRecord(
+            int caracteristicaId,
+            int imovelCaracteristicaId
+        );
     }
 }
