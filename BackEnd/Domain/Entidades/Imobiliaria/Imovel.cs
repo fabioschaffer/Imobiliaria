@@ -30,16 +30,12 @@ public class Imovel {
     }
 
     public void AdicionarCaracteristica(int caracteristicaId) {
-
-        //if (caracteristica is null)
-        //    throw new ArgumentNullException(nameof(caracteristica));
-
         var imovelCaracteristica = new ImovelCaracteristica(this, caracteristicaId);
         _imoveisCaracteristicas.Add(imovelCaracteristica);
     }
 
-    public void RemoverCaracteristica(ImovelCaracteristica imovelCaracteristica) {
+    public void RemoverCaracteristica(int imovelCaracteristicaId) {
+        var imovelCaracteristica = _imoveisCaracteristicas.FirstOrDefault(ic => ic.Id == imovelCaracteristicaId);
         _imoveisCaracteristicas.Remove(imovelCaracteristica);
     }
-
 }

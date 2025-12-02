@@ -1,4 +1,4 @@
-﻿namespace Util;
+﻿namespace Util.Validacoes;
 
 public class ValidacaoHelper {
 

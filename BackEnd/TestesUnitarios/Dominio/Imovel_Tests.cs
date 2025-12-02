@@ -51,7 +51,7 @@ public class Imovel_Tests {
         var imovelCaracteristica = imovel.ImoveisCaracteristicas.First();
 
         // Act
-        imovel.RemoverCaracteristica(imovelCaracteristica);
+        imovel.RemoverCaracteristica(imovelCaracteristica.Id);
 
         // Assert
         Assert.Empty(imovel.ImoveisCaracteristicas);

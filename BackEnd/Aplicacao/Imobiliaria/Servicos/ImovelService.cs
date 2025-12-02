@@ -2,7 +2,7 @@
 using Aplicacao.Imobiliaria.Interfaces;
 using Dominio.Entidades.Imobiliaria;
 using Repositorio.Interfaces;
-using Util;
+using Util.Validacoes;
 
 namespace Aplicacao.Imobiliaria.Servicos;
 public class ImovelService : IImovelService {
@@ -90,16 +90,15 @@ public class ImovelService : IImovelService {
     }
 
     private void AdicionarCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
-        var paraAdicionar = dto.ImovelCaracteristicas.Where(ic => ic.ImovelCaracteristicaId == 0).ToList();
+        var paraAdicionar = dto.ImovelCaracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Adicionar).ToList();
         foreach (var ic in paraAdicionar) {
             imovel.AdicionarCaracteristica(ic.CaracteristicaId);
         }
     }
 
     private void RemoverCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
-        var novos_IC_Ids = dto.ImovelCaracteristicas.Select(s => s.ImovelCaracteristicaId).ToList() ?? new List<int>();
-        var paraRemover = imovel.ImoveisCaracteristicas.Where(ic => ic.Id != 0 && !novos_IC_Ids.Contains(ic.CaracteristicaId)).ToList();
+        var paraRemover = dto.ImovelCaracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Remover).ToList();
         foreach (var ic in paraRemover)
-            imovel.RemoverCaracteristica(ic);
+            imovel.RemoverCaracteristica(ic.ImovelCaracteristicaId);
     }
 }

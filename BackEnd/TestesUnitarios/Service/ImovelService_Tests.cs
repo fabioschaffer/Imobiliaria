@@ -4,6 +4,7 @@ using Dominio.Entidades.Imobiliaria;
 using Dominio.Enums;
 using Moq;
 using Repositorio.Interfaces;
+using Util.Enums;
 using Xunit;
 
 namespace TestesUnitarios.Service {
@@ -30,7 +31,7 @@ namespace TestesUnitarios.Service {
         }
 
         [Fact]
-        public async Task CriarImovel_VerificaDadosImovelCriado() {
+        public async Task CriarImovel_ImoveComDados_VerificaDadosImovelCriado() {
             // Arrange
             ImovelDTO dto = CriaDTO_ComCaracteristica();
 
@@ -48,23 +49,10 @@ namespace TestesUnitarios.Service {
         }
 
         [Fact]
-        public async Task RemoverCaracteristica_CaracteristicaDoImovelRemovida() {
-            // Arrange
-            ImovelDTO dtoSemCaract = CriaDTO();
-            ImovelDTO dtoComCaract = CriaDTO_ComCaracteristica();
-
-            // Act
-            var imovelCriado = await ImovelService.Criar(dtoComCaract);
-
-            // Assert
-            Assert.True(imovelCriado.ImoveisCaracteristicas.Count == 1);
-        }
-
-        [Fact]
-        public async Task AtualizarImovel_CaracteristicaAdicionada_CarracteristicaRemovida() {
+        public async Task AtualizarImovel_ImovelComCaracteristiscaAAdicionar_CarracteristicaAdicionada() {
 
             // Arrange
-            ImovelDTO dto = CriaDTO_ComCaracteristica_A_Adicionar_E_A_Remover();
+            ImovelDTO dto = CriaDTO_ComCaracteristica_A_Adicionar();
             
             var imovel = CriaImovelComCaracteristica(dto.Id,1, 100);
 
@@ -74,8 +62,16 @@ namespace TestesUnitarios.Service {
             var imovelAtualizado = await ImovelService.Atualizar(dto.Id, dto);
 
             // Assert
-            Assert.True(imovelAtualizado.ImoveisCaracteristicas.Count == 1);
-            Assert.Equal(imovelAtualizado.ImoveisCaracteristicas.First().CaracteristicaId, 2);
+            Assert.True(imovelAtualizado.ImoveisCaracteristicas.Count == 2);
+            Assert.Contains(imovelAtualizado.ImoveisCaracteristicas, ic => ic.CaracteristicaId == 1);
+            Assert.Contains(imovelAtualizado.ImoveisCaracteristicas, ic => ic.CaracteristicaId == 2);
+        }
+
+        [Fact]
+        public async Task AtualizarImovel_ImovelComCaracteristiscaARemover_CarracteristicaRemovida() {
+
+            //TODO: Continuar aqui. Criar esse teste unitário. É semelhante ao teste acima.
+
         }
 
 
@@ -101,6 +97,7 @@ namespace TestesUnitarios.Service {
                        Valor: 200000,
                        ImovelCaracteristicas: new List<ImovelCaracteristicaDTO> {
                            new ImovelCaracteristicaDTO(
+                               Acao : Acao.Adicionar,
                                ImovelCaracteristicaId: 0,
                                CaracteristicaId: 1
                            )
@@ -108,7 +105,7 @@ namespace TestesUnitarios.Service {
                     );
         }
 
-        private ImovelDTO CriaDTO_ComCaracteristica_A_Adicionar_E_A_Remover() {
+        private ImovelDTO CriaDTO_ComCaracteristica_A_Adicionar() {
             return new ImovelDTO(
                        Id: 1,
                        TipoImovel: TipoImovel.Casa,
@@ -118,6 +115,12 @@ namespace TestesUnitarios.Service {
                        Valor: 200000,
                        ImovelCaracteristicas: new List<ImovelCaracteristicaDTO> {
                            new ImovelCaracteristicaDTO(
+                               Acao: Acao.Editar,
+                               ImovelCaracteristicaId: 1,
+                               CaracteristicaId: 1
+                           ),
+                           new ImovelCaracteristicaDTO(
+                               Acao: Acao.Adicionar,
                                ImovelCaracteristicaId: 0,
                                CaracteristicaId: 2
                            )
@@ -126,24 +129,15 @@ namespace TestesUnitarios.Service {
         }
 
         private Imovel CriaImovelComCaracteristica(int imovelId, int caracteristicaId, int imovelCaracteristicaId) {
-            var imovel = new Imovel();
 
-            // Força o Id usando reflexão
-            typeof(Imovel)
-                .GetProperty("Id")
-                .SetValue(imovel, imovelId);
+            var imovel = new Imovel();
+            typeof(Imovel).GetProperty("Id").SetValue(imovel, imovelId); // Seta o Id por reflexão (pois é privado).
 
             var imovelCaracteristica = new ImovelCaracteristica(imovel, caracteristicaId);
+            typeof(ImovelCaracteristica).GetProperty("Id").SetValue(imovelCaracteristica, imovelCaracteristicaId); // Seta o Id por reflexão (pois é privado).
 
-            // Força o Id usando reflexão
-            typeof(ImovelCaracteristica)
-                .GetProperty("Id")
-                .SetValue(imovelCaracteristica, imovelCaracteristicaId);
-
-            // Adiciona a característica à lista privada usando reflexão
-            var imoveisCaracteristicasField = typeof(Imovel)
-                .GetField("_imoveisCaracteristicas", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
+            // Adiciona a característica ao imóvel usando reflexão (pois é privado).
+            var imoveisCaracteristicasField = typeof(Imovel).GetField("_imoveisCaracteristicas", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var imoveisCaracteristicasList = (List<ImovelCaracteristica>)imoveisCaracteristicasField.GetValue(imovel)!;
             imoveisCaracteristicasList.Add(imovelCaracteristica);
 
