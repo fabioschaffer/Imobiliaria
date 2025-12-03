@@ -1,0 +1,57 @@
+<h3 class="text-center p-2">Imóveis - Inclusão</h3>
+
+<button class="btn btn-primary w-100 rounded-bottom-0 text-start" type="button" data-bs-toggle="collapse"
+    data-bs-target="#collapseDadosIniciais" aria-controls="collapseDadosIniciais">
+    Dados Iniciais
+</button>
+
+<div class="collapse show" id="collapseDadosIniciais">
+    <div class="card card-body rounded-top-0">
+        <form [formGroup]="dadosIniciaisForm">
+            <div class="row">
+                <div class="col-md-3 col-12">
+                    <div class="mb-3">
+                        <label>Tipo</label>
+                        <select class="form-select form-control" formControlName="tipo">
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-1 col-12">
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="mb-3">
+                        <label>Área</label>
+                        <input type="number" class="form-control" formControlName="area">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-12">
+                    <div class="mb-3">
+                        <label>Quartos</label>
+                        <input type="number" class="form-control" formControlName="quartos">
+                    </div>
+                </div>
+                <div class="col-md-1 col-12">
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="mb-3">
+                        <label>Vagas Garagem</label>
+                        <input type="number" class="form-control" formControlName="vagasGaragem">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-12">
+                    <div class="mb-3">
+                        <label>Valor</label>
+                        <input type="number" class="form-control" formControlName="valor">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
