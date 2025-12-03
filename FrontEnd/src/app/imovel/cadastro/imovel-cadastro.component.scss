@@ -1,0 +1,10 @@
+    .sem-efeitos-de-hover:hover,
+    .sem-efeitos-de-hover:focus {
+        background-color: var(--bs-primary) !important;
+        color: var(--bs-white) !important;
+        border-color: var(--bs-primary) !important;
+        box-shadow: none !important;
+        text-decoration: none !important;
+        outline: none !important;
+        cursor: pointer;
+    }
