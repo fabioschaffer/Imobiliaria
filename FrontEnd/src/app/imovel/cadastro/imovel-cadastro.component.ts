@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { somenteNumerosDirective } from '../../../Diretivas/somente-numeros.diretiva';
+import { DuasDecimaisDirective } from '../../../Diretivas/duas-decimais.diretiva';
 
 @Component({
   selector: 'imovel-cadastro.component',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, somenteNumerosDirective, DuasDecimaisDirective],
   templateUrl: './imovel-cadastro.component.html',
   styleUrl: './imovel-cadastro.component.scss',
 })

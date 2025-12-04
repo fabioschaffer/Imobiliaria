@@ -1,5 +1,6 @@
 <h3 class="text-center p-2">Imóveis - Inclusão</h3>
 
+<!-- DADOS INICIAIS - header -->
 <button id="btnDadosIniciaisCollapse" class="btn btn-primary w-100 rounded-bottom-0 text-start sem-efeitos-de-hover"
     type="button" data-bs-toggle="collapse" data-bs-target="#collapseDadosIniciais"
     aria-controls="collapseDadosIniciais">
@@ -9,53 +10,76 @@
     </span>
 </button>
 
+<!-- DADOS INICIAIS - body -->
 <div class="collapse show" id="collapseDadosIniciais">
     <div class="card card-body rounded-top-0">
         <form [formGroup]="dadosIniciaisForm">
             <div class="row">
+
+                <!-- TIPO -->
                 <div class="col-md-3 col-12">
-                    <div class="mb-3">
-                        <label>Tipo</label>
-                        <select class="form-select form-control" formControlName="tipo">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
+                    <label>Tipo</label>
+                    <select class="form-select form-control" formControlName="tipo">
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
                 </div>
-                <div class="col-md-1 col-12">
-                </div>
+
+                <div class="col-md-1 col-12"> </div>
+
+                <!-- ÁREA -->
                 <div class="col-md-3 col-12">
-                    <div class="mb-3">
-                        <label>Área</label>
-                        <input type="number" class="form-control" formControlName="area">
-                    </div>
+                    <label>Área</label>
+                    <input type="text" class="form-control text-end" formControlName="area" somenteNumeros>
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row mt-2">
+
+                <!-- QUARTOS -->
                 <div class="col-md-3 col-12">
-                    <div class="mb-3">
-                        <label>Quartos</label>
-                        <input type="number" class="form-control" formControlName="quartos">
-                    </div>
+                    <label>Quartos</label>
+                    <input type="text" class="form-control text-end" formControlName="quartos" somenteNumeros>
                 </div>
-                <div class="col-md-1 col-12">
-                </div>
+
+                <div class="col-md-1 col-12"> </div>
+
+                <!-- VAGAS GARAGEM -->
                 <div class="col-md-3 col-12">
-                    <div class="mb-3">
-                        <label>Vagas Garagem</label>
-                        <input type="number" class="form-control" formControlName="vagasGaragem">
-                    </div>
+                    <label>Vagas Garagem</label>
+                    <input type="text" class="form-control text-end" formControlName="vagasGaragem" somenteNumeros>
                 </div>
+
             </div>
-            <div class="row">
+            <div class="row mt-2">
+
+                <!-- VALOR -->
                 <div class="col-md-3 col-12">
-                    <div class="mb-3">
-                        <label>Valor</label>
-                        <input type="number" class="form-control" formControlName="valor">
-                    </div>
+                    <label>Valor</label>
+                    <input type="text" class="form-control text-end" formControlName="valor" duasDecimais>
                 </div>
+
             </div>
         </form>
+    </div>
+</div>
+
+<!-- CARACTERÍSTICAS - header -->
+<button id="btnCaracteristicasCollapse"
+    class="btn btn-primary w-100 rounded-bottom-0 text-start sem-efeitos-de-hover mt-3" type="button"
+    data-bs-toggle="collapse" data-bs-target="#collapseCaracteristicas" aria-controls="collapseCaracteristicas">
+    Características
+    <span class="float-end">
+        <i class="bi bi-chevron-down"></i>
+    </span>
+</button>
+
+<!-- CARACTERÍSTICAS - body -->
+<div class="collapse show" id="collapseCaracteristicas">
+    <div class="card card-body rounded-top-0">
+
+        <p>Características do imóvel aqui...</p>
+
     </div>
 </div>
