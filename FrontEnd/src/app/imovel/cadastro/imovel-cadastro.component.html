@@ -79,7 +79,21 @@
 <div class="collapse show" id="collapseCaracteristicas">
     <div class="card card-body rounded-top-0">
 
-        <p>Características do imóvel aqui...</p>
+        <div class="row mt-2">
+
+            <div class="col-md-3 col-12">
+                <ng-container *ngFor="let caracteristica of caracteristicas">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" [value]="caracteristica.valor"
+                            [id]="'check' + caracteristica.valor">
+                        <label class="form-check-label">
+                            {{ caracteristica.descricao }}
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
+
+        </div>
 
     </div>
 </div>
