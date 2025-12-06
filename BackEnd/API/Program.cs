@@ -2,10 +2,14 @@ using Aplicacao.Endereco.Interfaces;
 using Aplicacao.Endereco.Servicos;
 using Aplicacao.Imobiliaria.Interfaces;
 using Aplicacao.Imobiliaria.Servicos;
+using Aplicacao.Interfaces.ImovelNS;
+using Aplicacao.Servicos.Imovel;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;
+using Repositorio.Interfaces.ImovelNS;
 using Repositorio.Repositorios;
+using Repositorio.Repositorios.ImovelNS;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,10 +68,12 @@ static void ConfiguraRepositorio(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IUnidadeFederacaoRepository, UnidadeFederacaoRepository>();
     builder.Services.AddScoped<ICaracteristicaRepository, CaracteristicaRepository>();
     builder.Services.AddScoped<IImovelRepository, ImovelRepository>();
+    builder.Services.AddScoped<ITipoRepository, TipoRepository>();
 }
 
 static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IUnidadeFederacaoService, UnidadeFederacaoService>();
     builder.Services.AddScoped<ICaracteristicaService, CaracteristicaService>();
     builder.Services.AddScoped<IImovelService, ImovelService>();
+    builder.Services.AddScoped<ITipoService, TipoService>();
 }

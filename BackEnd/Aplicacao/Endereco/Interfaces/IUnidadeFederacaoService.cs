@@ -1,4 +1,5 @@
-﻿using Aplicacao.Endereco.DTOs;
+﻿using Aplicacao.DTOs.Imovel;
+using Aplicacao.Endereco.DTOs;
 
 namespace Aplicacao.Endereco.Interfaces;
 

@@ -1,5 +1,7 @@
-﻿using Aplicacao.Endereco.DTOs;
+﻿using Aplicacao.DTOs.Imovel;
+using Aplicacao.Endereco.DTOs;
 using Aplicacao.Endereco.Interfaces;
+using Aplicacao.Interfaces.ImovelNS;
 using Dominio.Entidades.EnderecoNS;
 using Repositorio.Interfaces;
 

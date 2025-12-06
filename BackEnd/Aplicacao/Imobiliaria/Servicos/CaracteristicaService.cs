@@ -2,6 +2,7 @@
 using Aplicacao.Imobiliaria.Interfaces;
 using Dominio.Entidades.Imobiliaria;
 using Repositorio.Interfaces;
+using Repositorio.Interfaces.ImovelNS;
 
 namespace Aplicacao.Imobiliaria.Servicos;
 public class CaracteristicaService : ICaracteristicaService {

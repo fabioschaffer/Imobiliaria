@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { somenteNumerosDirective } from '../../../Diretivas/somente-numeros.diretiva';
 import { DuasDecimaisDirective } from '../../../Diretivas/duas-decimais.diretiva';
 import { CommonModule } from '@angular/common';
+import { ICaracteristica } from '../../interfaces/ICaracteristica';
+import { CaracteristicaService } from '../../service/caracteristica.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'imovel-cadastro.component',
@@ -12,15 +15,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './imovel-cadastro.component.scss',
 })
 export class ImovelCadastroComponent {
+  public Math = Math;
   dadosIniciaisForm: FormGroup;
 
-  caracteristicas: { descricao: string; valor: number }[] = [
-    { descricao: 'Item 1', valor: 100 },
-    { descricao: 'Item 2', valor: 200 },
-    { descricao: 'Item 3', valor: 300 }
-  ];
+  caracteristicas: ICaracteristica[] = [];
 
-  constructor() {
+  constructor(private caracteristicaService: CaracteristicaService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) {
     this.dadosIniciaisForm = new FormGroup({
       tipo: new FormControl('', Validators.required),
       area: new FormControl('', Validators.required),
@@ -30,5 +33,18 @@ export class ImovelCadastroComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.carregarLista();
+  }
+
+  carregarLista() {
+    this.caracteristicaService.obterTodas()
+      .subscribe(caracteristicas => {
+        console.log(caracteristicas);
+        this.caracteristicas = caracteristicas;
+        this.cdr.detectChanges();
+      });
+
+  }
 
 }

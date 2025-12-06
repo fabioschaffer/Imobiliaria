@@ -1,5 +1,6 @@
 using Aplicacao.Endereco.DTOs;
 using Aplicacao.Endereco.Interfaces;
+using Aplicacao.Interfaces.ImovelNS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Endereco;

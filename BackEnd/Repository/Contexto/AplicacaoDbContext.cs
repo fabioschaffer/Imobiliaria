@@ -21,4 +21,5 @@ public class AplicacaoDbContext : DbContext {
     public DbSet<Imovel> Imoveis { get; set; }
     public DbSet<Caracteristica> Caracteristicas { get; set; }
     public DbSet<ImovelCaracteristica> ImoveisCaracteristicas { get; set; }
+    public DbSet<Dominio.Entidades.Imovel.Tipo> ImovelTipos { get; set; }
 }
