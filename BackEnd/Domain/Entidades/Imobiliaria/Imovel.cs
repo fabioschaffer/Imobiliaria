@@ -14,8 +14,6 @@ public class Imovel {
     public decimal Valor { get; private set; }
     public Endereco? Endereco { get; private set; }
 
-    //public ICollection<ImovelCaracteristica> ImoveisCaracteristicas { get; private set; } = new List<ImovelCaracteristica>();
-
     private readonly List<ImovelCaracteristica> _imoveisCaracteristicas = new();
     public IReadOnlyCollection<ImovelCaracteristica> ImoveisCaracteristicas => _imoveisCaracteristicas;
 
