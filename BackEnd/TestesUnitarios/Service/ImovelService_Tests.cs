@@ -45,7 +45,7 @@ namespace TestesUnitarios.Service {
             Assert.Equal(dto.Quartos, imovelCriado.Quartos);
             Assert.Equal(dto.VagasGaragem, imovelCriado.VagasGaragem);
             Assert.Equal(dto.Valor, imovelCriado.Valor);
-            Assert.Equal(dto.ImovelCaracteristicas.Length, imovelCriado.ImoveisCaracteristicas.ToArray().Length);
+            Assert.Equal(dto.Caracteristicas.Length, imovelCriado.ImoveisCaracteristicas.ToArray().Length);
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace TestesUnitarios.Service {
                        Quartos: 3,
                        VagasGaragem: 2,
                        Valor: 200000,
-                       ImovelCaracteristicas: Array.Empty<ImovelCaracteristicaDTO>()
+                       Caracteristicas: Array.Empty<ImovelCaracteristicaDTO>()
                     );
         }
 
@@ -112,11 +112,12 @@ namespace TestesUnitarios.Service {
                        Quartos: 3,
                        VagasGaragem: 2,
                        Valor: 200000,
-                       ImovelCaracteristicas: new List<ImovelCaracteristicaDTO> {
+                       Caracteristicas: new List<ImovelCaracteristicaDTO> {
                            new ImovelCaracteristicaDTO(
                                Acao : Acao.Adicionar,
                                ImovelCaracteristicaId: 0,
-                               CaracteristicaId: 1
+                               CaracteristicaId: 1,
+                               "Pátio"
                            )
                        }.ToArray()
                     );
@@ -130,16 +131,18 @@ namespace TestesUnitarios.Service {
                        Quartos: 3,
                        VagasGaragem: 2,
                        Valor: 200000,
-                       ImovelCaracteristicas: new List<ImovelCaracteristicaDTO> {
+                       Caracteristicas: new List<ImovelCaracteristicaDTO> {
                            new ImovelCaracteristicaDTO(
                                Acao: Acao.Editar,
                                ImovelCaracteristicaId: 1,
-                               CaracteristicaId: 1
+                               CaracteristicaId: 1,
+                               "Pátio"
                            ),
                            new ImovelCaracteristicaDTO(
                                Acao: Acao.Adicionar,
                                ImovelCaracteristicaId: 0,
-                               CaracteristicaId: 2
+                               CaracteristicaId: 2,
+                                "Churrasqueira"
                            )
                        }.ToArray()
                     );
@@ -153,16 +156,18 @@ namespace TestesUnitarios.Service {
                        Quartos: 3,
                        VagasGaragem: 2,
                        Valor: 200000,
-                       ImovelCaracteristicas: new List<ImovelCaracteristicaDTO> {
+                       Caracteristicas: new List<ImovelCaracteristicaDTO> {
                            new ImovelCaracteristicaDTO(
                                Acao: Acao.Editar,
                                ImovelCaracteristicaId: 1,
-                               CaracteristicaId: 1
+                               CaracteristicaId: 1,
+                                 "Pátio"
                            ),
                            new ImovelCaracteristicaDTO(
                                Acao: Acao.Remover,
                                ImovelCaracteristicaId: 2,
-                               CaracteristicaId: 2
+                               CaracteristicaId: 2,
+                                "Churrasqueira"
                            )
                        }.ToArray()
                     );

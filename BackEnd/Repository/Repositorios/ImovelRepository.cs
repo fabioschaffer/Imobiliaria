@@ -31,7 +31,10 @@ public class ImovelRepository : IImovelRepository {
             throw new ArgumentNullException(nameof(id), "O ID não pode ser nulo.");
         }
 
-        var Imovel = await contexto.Imoveis.FindAsync(id);
+        var Imovel = await contexto.Imoveis
+            .Include(i => i.ImoveisCaracteristicas)
+            .ThenInclude(ic => ic.Caracteristica)
+            .FirstOrDefaultAsync(i => i.Id == id);
 
         if (Imovel == null) {
             throw new KeyNotFoundException($"Nenhuma Imovel encontrada com o ID {id}.");

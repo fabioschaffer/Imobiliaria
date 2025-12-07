@@ -5,18 +5,19 @@ import { DuasDecimaisDirective } from '../../../Diretivas/duas-decimais.diretiva
 import { CommonModule } from '@angular/common';
 import { ICaracteristica } from '../../interfaces/ICaracteristica';
 import { CaracteristicaService } from '../../service/caracteristica.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TipoImovelService } from '../../service/tipo-imovel.service';
 import { ITipoImovel } from '../../interfaces/ITipoImovel';
 import { IImovel } from '../../interfaces/IImovel';
 import { ImovelService } from '../../service/Imovel.service';
 import { ToastComponent } from "../../../Componentes/Toast/toast.component";
 import { ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'imovel-cadastro.component',
   standalone: true,
-  imports: [ReactiveFormsModule, somenteNumerosDirective, DuasDecimaisDirective, CommonModule, ToastComponent],
+  imports: [ReactiveFormsModule, FormsModule, somenteNumerosDirective, DuasDecimaisDirective, CommonModule, ToastComponent],
   templateUrl: './imovel-cadastro.component.html',
   styleUrl: './imovel-cadastro.component.scss',
 })
@@ -36,7 +37,8 @@ export class ImovelCadastroComponent {
     private caracteristicaService: CaracteristicaService,
     private tipoImovelService: TipoImovelService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.dadosIniciaisForm = new FormGroup({
       tipo: new FormControl('', Validators.required),
@@ -68,7 +70,30 @@ export class ImovelCadastroComponent {
       });
   }
 
+  carregarImovel() {
+
+    //TODO: Concluir método de carregar imóvel para edição.
+
+    this.route.queryParams.subscribe(params => {
+      this.imovelId = params['imovelId'];
+
+      if (this.imovelId != null) {
+        this.imovelService.obterUma(this.imovelId)
+          .subscribe(uf => {
+            this.dadosIniciaisForm.patchValue({
+              //nome: uf.nome,
+            });
+          });
+      }
+    });
+  }
+
   Salvar() {
+
+    const selecionadas = this.caracteristicas.filter(c => c.selecionado);
+    console.log(selecionadas);
+    return;
+
 
     this.toast.show('Salvando... Aguarde!');
 

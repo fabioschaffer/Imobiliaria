@@ -9,7 +9,7 @@ public record ImovelDTO(
     byte Quartos,
     byte VagasGaragem,
     decimal Valor,
-    ImovelCaracteristicaDTO[] ImovelCaracteristicas
+    ImovelCaracteristicaDTO[] Caracteristicas
 ) {
-    public ImovelCaracteristicaDTO[] ImovelCaracteristicas { get; init; } = ImovelCaracteristicas ?? [];
+    public ImovelCaracteristicaDTO[] Caracteristicas { get; init; } = Caracteristicas ?? [];
 }

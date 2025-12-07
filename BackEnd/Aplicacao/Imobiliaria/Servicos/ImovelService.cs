@@ -2,6 +2,7 @@
 using Aplicacao.Imobiliaria.Interfaces;
 using Dominio.Entidades.Imobiliaria;
 using Repositorio.Interfaces;
+using Util.Enums;
 using Util.Validacoes;
 
 namespace Aplicacao.Imobiliaria.Servicos;
@@ -49,20 +50,24 @@ public class ImovelService : IImovelService {
             throw new ArgumentNullException(nameof(id), "Id cannot be null.");
         }
 
-        var Imovel = await ImovelRepository.ObterPorId(id);
+        var imovel = await ImovelRepository.ObterPorId(id);
 
-        if (Imovel == null) {
+        if (imovel == null) {
             throw new KeyNotFoundException($"Imovel with Id {id} not found.");
         }
 
+        var caracteristicas = imovel.ImoveisCaracteristicas
+            .Select(ic => new ImovelCaracteristicaDTO(Acao.NaoDefinido, ic.Id, ic.CaracteristicaId, ic.Caracteristica.Descricao))
+            .ToArray();
+
         return new ImovelDTO(
-            Imovel.Id,
-            Imovel.TipoImovel,
-            Imovel.Area,
-            Imovel.Quartos,
-            Imovel.VagasGaragem,
-            Imovel.Valor,
-            null
+            imovel.Id,
+            imovel.TipoImovel,
+            imovel.Area,
+            imovel.Quartos,
+            imovel.VagasGaragem,
+            imovel.Valor,
+            caracteristicas
         );
     }
     public async Task<IEnumerable<ImovelDTO>> ObterImoveis() {
@@ -90,14 +95,14 @@ public class ImovelService : IImovelService {
     }
 
     private void AdicionarCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
-        var paraAdicionar = dto.ImovelCaracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Adicionar).ToList();
+        var paraAdicionar = dto.Caracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Adicionar).ToList();
         foreach (var ic in paraAdicionar) {
             imovel.AdicionarCaracteristica(ic.CaracteristicaId);
         }
     }
 
     private void RemoverCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
-        var paraRemover = dto.ImovelCaracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Remover).ToList();
+        var paraRemover = dto.Caracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Remover).ToList();
         foreach (var ic in paraRemover)
             imovel.RemoverCaracteristica(ic.ImovelCaracteristicaId);
     }

@@ -87,7 +87,7 @@
                                             )">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" [value]="caracteristica.id"
-                                [id]="'check' + caracteristica.id">
+                                [id]="'check' + caracteristica.id" [(ngModel)]="caracteristica.selecionado">
                             <label class="form-check-label">
                                 {{ caracteristica.descricao }}
                             </label>
