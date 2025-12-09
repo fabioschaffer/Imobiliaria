@@ -95,14 +95,14 @@ public class ImovelService : IImovelService {
     }
 
     private void AdicionarCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
-        var paraAdicionar = dto.Caracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Adicionar).ToList();
+        var paraAdicionar = dto.Caracteristicas.Where(ic => ic.Acao == Acao.Adicionar).ToList();
         foreach (var ic in paraAdicionar) {
             imovel.AdicionarCaracteristica(ic.CaracteristicaId);
         }
     }
 
     private void RemoverCaracteristicasImovel(Imovel imovel, ImovelDTO dto) {
-        var paraRemover = dto.Caracteristicas.Where(ic => ic.Acao == Util.Enums.Acao.Remover).ToList();
+        var paraRemover = dto.Caracteristicas.Where(ic => ic.Acao == Acao.Remover).ToList();
         foreach (var ic in paraRemover)
             imovel.RemoverCaracteristica(ic.ImovelCaracteristicaId);
     }

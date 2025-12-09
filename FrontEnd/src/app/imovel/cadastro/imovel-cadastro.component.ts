@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { somenteNumerosDirective } from '../../../Diretivas/somente-numeros.diretiva';
 import { DuasDecimaisDirective } from '../../../Diretivas/duas-decimais.diretiva';
 import { CommonModule } from '@angular/common';
-import { ICaracteristica } from '../../interfaces/ICaracteristica';
 import { CaracteristicaService } from '../../service/caracteristica.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TipoImovelService } from '../../service/tipo-imovel.service';
@@ -13,6 +12,7 @@ import { ImovelService } from '../../service/Imovel.service';
 import { ToastComponent } from "../../../Componentes/Toast/toast.component";
 import { ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { IImovelCaracteristica } from '../../interfaces/IImovelCaracteristica';
 
 @Component({
   selector: 'imovel-cadastro.component',
@@ -29,7 +29,7 @@ export class ImovelCadastroComponent {
   public Math = Math;
   dadosIniciaisForm: FormGroup;
 
-  caracteristicas: ICaracteristica[] = [];
+  caracteristicas: IImovelCaracteristica[] = [];
   tiposImovel: ITipoImovel[] = [];
 
   constructor(
@@ -50,14 +50,23 @@ export class ImovelCadastroComponent {
   }
 
   ngOnInit(): void {
-    this.carregarCaracteristicas();
     this.carregarTiposImovel();
+    this.carregarImovel();
   }
 
-  carregarCaracteristicas() {
+  carregarCaracteristicas(selecionadas: IImovelCaracteristica[]) {
     this.caracteristicaService.obterTodas()
       .subscribe(caracteristicas => {
-        this.caracteristicas = caracteristicas;
+        caracteristicas.forEach(element => {
+          const selecionado = selecionadas.find(s => s.caracteristicaId === element.id);
+          this.caracteristicas.push({
+            imovelCaracteristicaId: selecionado?.imovelCaracteristicaId ?? 0,
+            caracteristicaId: element.id,
+            descricao: element.descricao,
+            acao: 0,
+            selecionado: selecionado != undefined
+          });
+        });
         this.cdr.detectChanges();
       });
   }
@@ -71,44 +80,47 @@ export class ImovelCadastroComponent {
   }
 
   carregarImovel() {
-
-    //TODO: Concluir método de carregar imóvel para edição.
-
     this.route.queryParams.subscribe(params => {
       this.imovelId = params['imovelId'];
-
       if (this.imovelId != null) {
         this.imovelService.obterUma(this.imovelId)
-          .subscribe(uf => {
+          .subscribe(imovel => {
+            console.log('imovel', imovel);
             this.dadosIniciaisForm.patchValue({
-              //nome: uf.nome,
+              tipo: imovel.tipoImovel.toString(),
+              area: imovel.area,
+              quartos: imovel.quartos,
+              vagasGaragem: imovel.vagasGaragem,
+              valor: imovel.valor
             });
+            this.carregarCaracteristicas(imovel.caracteristicas);
           });
+      }
+      else {
+        this.carregarCaracteristicas([]);
       }
     });
   }
 
   Salvar() {
-
-    const selecionadas = this.caracteristicas.filter(c => c.selecionado);
-    console.log(selecionadas);
-    return;
-
-
     this.toast.show('Salvando... Aguarde!');
-
     this.dadosIniciaisForm.markAllAsTouched();
-
     if (this.dadosIniciaisForm.valid) {
-
       let imovel: IImovel = {
-        id: this.imovelId ?? 0,
+        id: Number(this.imovelId ?? 0),
         tipoImovel: Number(this.dadosIniciaisForm.value.tipo),
         area: Number(this.dadosIniciaisForm.value.area),
         quartos: Number(this.dadosIniciaisForm.value.quartos),
         vagasGaragem: Number(this.dadosIniciaisForm.value.vagasGaragem),
         valor: Number(this.dadosIniciaisForm.value.valor),
-        caracteristicas: [], // You might want to populate this based on your form or other logic
+        caracteristicas: this.caracteristicas.map(c => ({
+          imovelCaracteristicaId: c.imovelCaracteristicaId,
+          caracteristicaId: c.caracteristicaId,
+          descricao: c.descricao,
+          acao: (c.selecionado && c.imovelCaracteristicaId == 0) ? 1 :
+            (!c.selecionado && c.imovelCaracteristicaId > 0) ? 3 :
+              0,
+        } as IImovelCaracteristica))
       };
 
       if (this.imovelId == null) {
@@ -116,11 +128,7 @@ export class ImovelCadastroComponent {
           .criar(imovel)
           .subscribe({
             next: imovelCriado => {
-
-              //alert('Criado com sucesso!');
               this.toast.show('Imóvel criado com sucesso!');
-
-
               this.dadosIniciaisForm.reset();
             },
             error: erro => console.error('Ocorreu um erro: ', erro)
@@ -130,10 +138,7 @@ export class ImovelCadastroComponent {
           .editar(imovel)
           .subscribe({
             next: sucesso => {
-
-              alert('Alterado com sucesso!');
-
-              this.dadosIniciaisForm.reset();
+              this.toast.show('Imóvel alterado com sucesso!');
             },
             error: erro => console.error('Ocorreu um erro: ', erro)
           });

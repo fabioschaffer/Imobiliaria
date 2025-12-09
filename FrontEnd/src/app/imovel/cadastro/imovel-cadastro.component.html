@@ -86,8 +86,9 @@
                                                 Math.floor((col + 1) * caracteristicas.length / 3)
                                             )">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="caracteristica.id"
-                                [id]="'check' + caracteristica.id" [(ngModel)]="caracteristica.selecionado">
+                            <input class="form-check-input" type="checkbox" [value]="caracteristica.caracteristicaId"
+                                [id]="'check' + caracteristica.caracteristicaId"
+                                [(ngModel)]="caracteristica.selecionado">
                             <label class="form-check-label">
                                 {{ caracteristica.descricao }}
                             </label>
