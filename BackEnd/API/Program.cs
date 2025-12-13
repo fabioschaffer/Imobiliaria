@@ -3,7 +3,9 @@ using Aplicacao.Endereco.Servicos;
 using Aplicacao.Imobiliaria.Interfaces;
 using Aplicacao.Imobiliaria.Servicos;
 using Aplicacao.Interfaces.ImovelNS;
+using Aplicacao.Interfaces.T_Orcamento;
 using Aplicacao.Servicos.Imovel;
+using Aplicacao.Servicos.T_Orcamento;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;
@@ -69,6 +71,7 @@ static void ConfiguraRepositorio(WebApplicationBuilder builder) {
     builder.Services.AddScoped<ICaracteristicaRepository, CaracteristicaRepository>();
     builder.Services.AddScoped<IImovelRepository, ImovelRepository>();
     builder.Services.AddScoped<ITipoRepository, TipoRepository>();
+    builder.Services.AddScoped<IOrcamentoRepository, OrcamentoRepository>();
 }
 
 static void ConfiguraService(WebApplicationBuilder builder) {
@@ -76,4 +79,5 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<ICaracteristicaService, CaracteristicaService>();
     builder.Services.AddScoped<IImovelService, ImovelService>();
     builder.Services.AddScoped<ITipoService, TipoService>();
+    builder.Services.AddScoped<IOrcamentoService, T_OrcamentoService>();
 }
