@@ -5,13 +5,14 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { IImovel } from '../../interfaces/IImovel';
+import { PaginacaoComponent } from "../../../Componentes/Paginacao/paginacao.component";
 
 @Component({
   selector: 'app-imovel-listagem.component',
   templateUrl: './imovel-listagem.component.html',
   styleUrl: './imovel-listagem.component.scss',
     standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, PaginacaoComponent],
 })
 export class ImovelListagemComponent {
   Imovel: IImovel[] = [];
@@ -74,6 +75,21 @@ export class ImovelListagemComponent {
       }
     });
 
+  }
+
+
+  currentPage = 1;
+  totalPages = 20;
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.carregarDados();
+  }
+
+  carregarDados(): void {
+    console.log('Página atual:', this.currentPage);
+    // chamada à API:
+    // GET /items?page=this.currentPage
   }
 
 }

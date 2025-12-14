@@ -42,3 +42,9 @@
     </tbody>
 
 </table>
+<app-paginacao *ngIf="!loading"
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  [maxVisiblePages]="5"
+  (pageChange)="onPageChange($event)">
+</app-paginacao>
