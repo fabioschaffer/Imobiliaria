@@ -28,4 +28,10 @@ public class OrcamentoController : ControllerBase {
     {
         await OrcamentoService.ObterPorId(id);
     }
+
+    [HttpPost("processar")]
+    public void Processar(int id)
+    {
+        OrcamentoService.Processar();
+    }
 }

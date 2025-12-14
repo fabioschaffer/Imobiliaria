@@ -1,14 +1,7 @@
-﻿using Aplicacao.Endereco.DTOs;
+﻿using Aplicacao.Endereco.Interfaces;
 using Aplicacao.Interfaces.T_Orcamento;
-using Dominio.Entidades.EnderecoNS;
 using Dominio.Entidades.Testes;
 using Repositorio.Interfaces;
-using Repositorio.Repositorios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aplicacao.Servicos.T_Orcamento
 {
@@ -16,11 +9,13 @@ namespace Aplicacao.Servicos.T_Orcamento
     {
 
         private IOrcamentoRepository OrcamentoRepository;
+        private IUnidadeFederacaoService UnidadeFederacaoService;
 
-        public T_OrcamentoService(IOrcamentoRepository orcamentoRepository)
+        public T_OrcamentoService(IOrcamentoRepository orcamentoRepository, IUnidadeFederacaoService unidadeFederacaoService)
         {
-                
+
             OrcamentoRepository = orcamentoRepository;
+            UnidadeFederacaoService = unidadeFederacaoService;
         }
 
         public async Task Criar()
@@ -38,6 +33,13 @@ namespace Aplicacao.Servicos.T_Orcamento
             };
 
             await OrcamentoRepository.Criar(orcamento);
+        }
+
+        public void Processar()
+        {
+            var unidade = UnidadeFederacaoService.ObterPorId(1).GetAwaiter().GetResult();
+
+            unidade.GetHashCode();
         }
 
         public async Task ObterPorId(int? id)

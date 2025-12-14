@@ -11,5 +11,6 @@ namespace Aplicacao.Interfaces.T_Orcamento
     {
         Task Criar();
         Task ObterPorId(int? id);
+        void Processar();
     }
 }
