@@ -36,13 +36,13 @@ export class ImovelListagemComponent {
   }
 
   Novo() {
-    this.router.navigate(['/Imovelcadastro']);
+    this.router.navigate(['/imovel/cadastro']);
   }
 
   Editar(id: number) {
     this.router.navigate(
-      ['/Imovelcadastro'],
-      { queryParams: { id: id } }
+      ['/imovel/cadastro'],
+      { queryParams: { imovelId: id } }
     );
 
   }
