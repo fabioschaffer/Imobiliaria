@@ -15,6 +15,7 @@ import { IImovel } from '../../interfaces/IImovel';
 })
 export class ImovelListagemComponent {
   Imovel: IImovel[] = [];
+  loading: boolean = false;
 
   constructor(
     private ImovelService: ImovelService,
@@ -27,11 +28,18 @@ export class ImovelListagemComponent {
   }
 
   carregarLista() {
+    this.loading = true;
     this.ImovelService.obterTodos()
-      .subscribe(ufs => {
-        console.log(ufs);
-        this.Imovel = ufs;
-        this.cdr.detectChanges();
+      .subscribe({
+        next: (ufs) => {
+          this.Imovel = ufs;
+          this.loading = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.loading = false;
+          console.error(err);
+        }
       });
   }
 
