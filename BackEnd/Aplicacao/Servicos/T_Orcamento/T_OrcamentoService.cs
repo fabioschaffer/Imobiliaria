@@ -39,5 +39,21 @@ namespace Aplicacao.Servicos.T_Orcamento
 
             await OrcamentoRepository.Criar(orcamento);
         }
+
+        public async Task ObterPorId(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id), "Id cannot be null.");
+            }
+
+            var orcamento = await OrcamentoRepository.ObterPorId(id);
+
+            if (orcamento == null)
+            {
+                throw new KeyNotFoundException($"Orcamento with Id {id} not found.");
+            }
+            orcamento.GetHashCode();
+        }
     }
 }

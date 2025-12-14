@@ -10,5 +10,6 @@ namespace Aplicacao.Interfaces.T_Orcamento
     public interface IOrcamentoService
     {
         Task Criar();
+        Task ObterPorId(int? id);
     }
 }

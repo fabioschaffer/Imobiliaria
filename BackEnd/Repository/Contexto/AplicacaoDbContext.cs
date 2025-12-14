@@ -16,11 +16,9 @@ public class AplicacaoDbContext : DbContext {
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
             entity.SetTableName(entity.ClrType.Name);
 
-
         modelBuilder.Entity<T_Orcamento>(entity =>
         {
             entity.HasKey(o => o.Id);
-
             entity.HasOne(o => o.Servicos)
                   .WithOne(s => s.Orcamento)
                   .HasForeignKey<T_Orcamento_Servicos>(s => s.OrcamentoId);
@@ -29,9 +27,7 @@ public class AplicacaoDbContext : DbContext {
         modelBuilder.Entity<T_Orcamento_Servicos>(entity =>
         {
             entity.HasKey(s => s.OrcamentoId);
-
-            entity.Property(s => s.OrcamentoId)
-                  .ValueGeneratedNever();
+            entity.Property(s => s.OrcamentoId).ValueGeneratedNever();
         });
     }
 
