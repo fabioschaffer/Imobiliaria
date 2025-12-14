@@ -27,7 +27,7 @@ public class ImovelController : ControllerBase {
     }
 
     [HttpGet]
-    public async Task<ImovelDTO[]> ObterTodas() {
+    public async Task<ImovelDTO[]> ObterTodos() {
         var unidades = await ImovelService.ObterImoveis();
         return unidades.ToArray();
     }

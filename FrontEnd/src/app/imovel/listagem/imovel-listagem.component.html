@@ -1,0 +1,36 @@
+<h3 class="text-center p-2">Imóveis</h3>
+
+<h4 class="text-center pb-2">
+    <button type="button" class="btn btn-primary" (click)="Novo()">Novo</button>
+</h4>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="d-none" scope="col">#</th>
+            <th scope="col">Quartos</th>
+            <th scope="col" class="text-center" style=" width: 150px;">Ações</th>
+        </tr>
+    </thead>
+
+    <tbody class="table-group-divider">
+        <tr *ngFor="let imovel of Imovel">
+            <th class="d-none" scope="row">{{ imovel.id }}</th>
+            <td>{{ imovel.quartos }}</td>
+            <td class="text-center">
+
+                <!-- Ícone Editar -->
+                <i class="bi bi-pencil-square text-primary fs-5 me-3" role="button" title="Editar"
+                    (click)="Editar(imovel.id)">
+                </i>
+
+                <!-- Ícone Excluir -->
+                <i class="bi bi-trash text-danger fs-5" role="button" title="Excluir" (click)="Excluir(imovel)">
+                </i>
+
+            </td>
+
+        </tr>
+    </tbody>
+
+</table>

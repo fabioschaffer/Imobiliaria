@@ -83,7 +83,7 @@ export class ImovelCadastroComponent {
     this.route.queryParams.subscribe(params => {
       this.imovelId = params['imovelId'];
       if (this.imovelId != null) {
-        this.imovelService.obterUma(this.imovelId)
+        this.imovelService.obterUm(this.imovelId)
           .subscribe(imovel => {
             console.log('imovel', imovel);
             this.dadosIniciaisForm.patchValue({

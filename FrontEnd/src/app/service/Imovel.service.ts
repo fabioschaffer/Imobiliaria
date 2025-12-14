@@ -22,11 +22,11 @@ export class ImovelService {
     return this.http.put<boolean>(`${this.apiUrl}/${imovel.id}`, imovel);
   }
 
-  obterTodas(): Observable<IImovel[]> {
+  obterTodos(): Observable<IImovel[]> {
     return this.http.get<IImovel[]>(this.apiUrl);
   }
 
-  obterUma(id: number): Observable<IImovel> {
+  obterUm(id: number): Observable<IImovel> {
     return this.http.get<IImovel>(`${this.apiUrl}/${id}`);
   }
 
