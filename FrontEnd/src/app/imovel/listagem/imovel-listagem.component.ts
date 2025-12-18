@@ -79,7 +79,7 @@ export class ImovelListagemComponent {
 
 
   currentPage = 1;
-  totalPages = 20;
+  totalPages = 50;
 
   onPageChange(page: number): void {
     this.currentPage = page;
