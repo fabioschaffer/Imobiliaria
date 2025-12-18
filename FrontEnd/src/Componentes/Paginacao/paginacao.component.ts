@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-paginacao',
   templateUrl: './paginacao.component.html',
+    styleUrls: ['./paginacao.component.scss'],
       standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
 })
