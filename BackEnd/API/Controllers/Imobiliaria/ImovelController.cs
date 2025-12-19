@@ -27,9 +27,9 @@ public class ImovelController : ControllerBase {
     }
 
     [HttpGet]
-    public async Task<ImovelDTO[]> ObterTodos() {
+    public async Task<ImovelPaginacaoDTO[]> ObterTodos(int pagina) {
         //Thread.Sleep(1000);
-        var unidades = await ImovelService.ObterImoveis();
+        var unidades = await ImovelService.ObterImoveis(pagina);
         return unidades.ToArray();
     }
 

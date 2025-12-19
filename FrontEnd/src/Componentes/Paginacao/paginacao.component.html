@@ -1,14 +1,14 @@
 <nav>
   <ul class="pagination justify-content-end">
-    <li class="page-item" [class.disabled]="currentPage === 1"><a class="page-link" (click)="goTo(1)">Primeira</a></li>
-    <li class="page-item" [class.disabled]="currentPage === 1"><a class="page-link" (click)="goTo(currentPage - 1)">Anterior</a></li>
+    <li class="page-item" [class.disabled]="paginaAtual === 1"><a class="page-link" (click)="goTo(1)">Primeira</a></li>
+    <li class="page-item" [class.disabled]="paginaAtual === 1"><a class="page-link" (click)="goTo(paginaAtual - 1)">Anterior</a></li>
 
     <li class="page-item"
           *ngFor="let page of pages"
-      [class.active]="page === currentPage"
+      [class.active]="page === paginaAtual"
     ><a class="page-link" (click)="goTo(page)">{{ page }}</a></li>
 
-    <li class="page-item" [class.disabled]="currentPage === totalPages"><a class="page-link" (click)="goTo(currentPage + 1)">Próximo</a></li>
-    <li class="page-item" [class.disabled]="currentPage === totalPages"><a class="page-link" (click)="goTo(totalPages)">Última</a></li>
+    <li class="page-item" [class.disabled]="paginaAtual === totalPaginas"><a class="page-link" (click)="goTo(paginaAtual + 1)">Próximo</a></li>
+    <li class="page-item" [class.disabled]="paginaAtual === totalPaginas"><a class="page-link" (click)="goTo(totalPaginas)">Última</a></li>
   </ul>
 </nav>

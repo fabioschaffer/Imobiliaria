@@ -5,15 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-paginacao',
   templateUrl: './paginacao.component.html',
-    styleUrls: ['./paginacao.component.scss'],
-      standalone: true,
+  styleUrls: ['./paginacao.component.scss'],
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class PaginacaoComponent implements OnChanges {
-
-  @Input() totalPages = 0;
-  @Input() currentPage = 1;
-  @Input() maxVisiblePages = 5;
+  @Input() totalPaginas = 0;
+  @Input() paginaAtual = 1;
+  @Input() maximoPaginasVisiveis = 5;
 
   @Output() pageChange = new EventEmitter<number>();
 
@@ -24,12 +23,12 @@ export class PaginacaoComponent implements OnChanges {
   }
 
   private buildPages(): void {
-    const half = Math.floor(this.maxVisiblePages / 2);
-    let start = Math.max(1, this.currentPage - half);
-    let end = Math.min(this.totalPages, start + this.maxVisiblePages - 1);
+    const half = Math.floor(this.maximoPaginasVisiveis / 2);
+    let start = Math.max(1, this.paginaAtual - half);
+    let end = Math.min(this.totalPaginas, start + this.maximoPaginasVisiveis - 1);
 
-    if (end - start + 1 < this.maxVisiblePages) {
-      start = Math.max(1, end - this.maxVisiblePages + 1);
+    if (end - start + 1 < this.maximoPaginasVisiveis) {
+      start = Math.max(1, end - this.maximoPaginasVisiveis + 1);
     }
 
     this.pages = [];
@@ -39,7 +38,7 @@ export class PaginacaoComponent implements OnChanges {
   }
 
   goTo(page: number): void {
-    if (page < 1 || page > this.totalPages || page === this.currentPage) {
+    if (page < 1 || page > this.totalPaginas || page === this.paginaAtual) {
       return;
     }
     this.pageChange.emit(page);

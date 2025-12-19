@@ -1,0 +1,1 @@
+export const LINHAS_POR_PAGINA = 3;

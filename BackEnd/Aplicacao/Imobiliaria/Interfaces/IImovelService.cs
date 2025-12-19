@@ -4,7 +4,7 @@ using Dominio.Entidades.Imobiliaria;
 namespace Aplicacao.Imobiliaria.Interfaces;
 
 public interface IImovelService {
-    Task<IEnumerable<ImovelDTO>> ObterImoveis();
+    Task<IEnumerable<ImovelPaginacaoDTO>> ObterImoveis(int pagina);
     Task<ImovelDTO> ObterPorId(int? id);
     Task<Imovel> Criar(ImovelDTO ImovelDTO);
     Task<Imovel> Atualizar(int id, ImovelDTO ImovelDTO);

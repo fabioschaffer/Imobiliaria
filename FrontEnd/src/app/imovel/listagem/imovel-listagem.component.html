@@ -43,8 +43,8 @@
 
 </table>
 <app-paginacao *ngIf="!loading"
-  [currentPage]="currentPage"
-  [totalPages]="totalPages"
-  [maxVisiblePages]="3"
+  [paginaAtual]="paginaAtual"
+  [totalPaginas]="totalPaginas"
+  [maximoPaginasVisiveis]="3"
   (pageChange)="onPageChange($event)">
 </app-paginacao>

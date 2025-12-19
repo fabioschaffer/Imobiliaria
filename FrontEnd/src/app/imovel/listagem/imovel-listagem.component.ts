@@ -4,44 +4,46 @@ import { ImovelService } from '../../service/Imovel.service';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { IImovel } from '../../interfaces/IImovel';
-import { PaginacaoComponent } from "../../../Componentes/Paginacao/paginacao.component";
+import { IImovel, IImovelPaginacao } from '../../interfaces/IImovel';
+import { PaginacaoComponent } from '../../../Componentes/Paginacao/paginacao.component';
+import { LINHAS_POR_PAGINA } from '../../../Componentes/Paginacao/paginacao.configuracao';
 
 @Component({
   selector: 'app-imovel-listagem.component',
   templateUrl: './imovel-listagem.component.html',
   styleUrl: './imovel-listagem.component.scss',
-    standalone: true,
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule, PaginacaoComponent],
 })
 export class ImovelListagemComponent {
-  Imovel: IImovel[] = [];
+  Imovel: IImovelPaginacao[] = [];
   loading: boolean = false;
 
   constructor(
     private ImovelService: ImovelService,
     private cdr: ChangeDetectorRef,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.carregarLista();
+    this.carregarImoveis();
   }
 
-  carregarLista() {
+  carregarImoveis(pagina: number = 1): void {
     this.loading = true;
-    this.ImovelService.obterTodos()
-      .subscribe({
-        next: (ufs) => {
-          this.Imovel = ufs;
-          this.loading = false;
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          this.loading = false;
-          console.error(err);
-        }
-      });
+    this.ImovelService.obterTodos(pagina).subscribe({
+      next: (ufs) => {
+        this.Imovel = ufs;
+        this.totalLinhas = ufs[0]?.totalLinhas || 0;
+        this.totalPaginas = Math.ceil(this.totalLinhas / LINHAS_POR_PAGINA);
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error(err);
+      },
+    });
   }
 
   Novo() {
@@ -49,47 +51,35 @@ export class ImovelListagemComponent {
   }
 
   Editar(id: number) {
-    this.router.navigate(
-      ['/imovel/cadastro'],
-      { queryParams: { imovelId: id } }
-    );
-
+    this.router.navigate(['/imovel/cadastro'], { queryParams: { imovelId: id } });
   }
 
   Excluir(imovel: IImovel) {
-
-    const confirmado = window.confirm(
-      `Tem certeza que deseja excluir ID "${imovel.id}"?`
-    );
-
+    const confirmado = window.confirm(`Tem certeza que deseja excluir ID "${imovel.id}"?`);
     if (!confirmado) return;
 
     this.ImovelService.excluir(imovel.id).subscribe({
       next: () => {
         alert('Excluído com sucesso!');
-        this.carregarLista();
+        this.carregarImoveis();
       },
-      error: err => {
+      error: (err) => {
         console.error(err);
         alert('Erro ao excluir');
-      }
+      },
     });
-
   }
 
+  totalLinhas = 100;
+  totalPaginas = Math.ceil(this.totalLinhas / LINHAS_POR_PAGINA);
+  paginaAtual = 1;
 
-  currentPage = 1;
-  totalPages = 50;
-
-  onPageChange(page: number): void {
-    this.currentPage = page;
+  onPageChange(pagina: number): void {
+    this.paginaAtual = pagina;
     this.carregarDados();
   }
 
   carregarDados(): void {
-    console.log('Página atual:', this.currentPage);
-    // chamada à API:
-    // GET /items?page=this.currentPage
+    this.carregarImoveis(this.paginaAtual);
   }
-
 }

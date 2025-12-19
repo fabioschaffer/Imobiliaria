@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UnidadeFederacao } from '../interfaces/unidade-federacao.interface';
-import { IImovel } from '../interfaces/IImovel';
+import { IImovel, IImovelPaginacao } from '../interfaces/IImovel';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +22,8 @@ export class ImovelService {
     return this.http.put<boolean>(`${this.apiUrl}/${imovel.id}`, imovel);
   }
 
-  obterTodos(): Observable<IImovel[]> {
-    return this.http.get<IImovel[]>(this.apiUrl);
+  obterTodos(pagina: number): Observable<IImovelPaginacao[]> {
+    return this.http.get<IImovelPaginacao[]>(`${this.apiUrl}?pagina=${pagina}`);
   }
 
   obterUm(id: number): Observable<IImovel> {

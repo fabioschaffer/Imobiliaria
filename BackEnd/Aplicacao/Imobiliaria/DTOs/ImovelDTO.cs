@@ -13,3 +13,17 @@ public record ImovelDTO(
 ) {
     public ImovelCaracteristicaDTO[] Caracteristicas { get; init; } = Caracteristicas ?? [];
 }
+
+public record ImovelPaginacaoDTO(
+    int Id,
+    TipoImovel TipoImovel,
+    decimal Area,
+    byte Quartos,
+    byte VagasGaragem,
+    decimal Valor,
+    ImovelCaracteristicaDTO[] Caracteristicas,
+    int TotalLinhas
+)
+{
+    public ImovelCaracteristicaDTO[] Caracteristicas { get; init; } = Caracteristicas ?? [];
+}
