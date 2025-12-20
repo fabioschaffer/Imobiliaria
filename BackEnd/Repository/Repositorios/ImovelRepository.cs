@@ -52,10 +52,22 @@ public class ImovelRepository : IImovelRepository
         return Imovel;
     }
 
-    public async Task<PaginacaoResult<Imovel>> Obter(int pagina)
-    {
-        var query = contexto.Imoveis
-            .OrderBy(o => o.Id);
+    public async Task<PaginacaoResult<Imovel>> Obter(int pagina, int? quartos, decimal? valorInicial, decimal? valorFinal) {
+        var query = contexto.Imoveis.AsQueryable();
+
+        if (quartos.HasValue) {
+            query = query.Where(i => i.Quartos == quartos.Value);
+        }
+
+        if (valorInicial.HasValue) {
+            query = query.Where(i => i.Valor >= valorInicial.Value);
+        }
+
+        if (valorFinal.HasValue) {
+            query = query.Where(i => i.Valor <= valorFinal.Value);
+        }
+
+        query = query.OrderBy(o => o.Id);
 
         var total = await query.CountAsync();
 
@@ -64,8 +76,7 @@ public class ImovelRepository : IImovelRepository
             .Take(Paginacao.LinhasPorPagina)
             .ToListAsync();
 
-        var resultado = new PaginacaoResult<Imovel>
-        {
+        var resultado = new PaginacaoResult<Imovel> {
             TotalRegistros = total,
             Itens = itens
         };

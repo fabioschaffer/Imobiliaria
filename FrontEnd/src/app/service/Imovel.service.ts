@@ -22,8 +22,23 @@ export class ImovelService {
     return this.http.put<boolean>(`${this.apiUrl}/${imovel.id}`, imovel);
   }
 
-  obterTodos(pagina: number): Observable<IImovelPaginacao[]> {
-    return this.http.get<IImovelPaginacao[]>(`${this.apiUrl}?pagina=${pagina}`);
+  obter(
+    pagina: number,
+    quartos?: number,
+    valorinicial?: number,
+    valorfinal?: number
+  ): Observable<IImovelPaginacao[]> {
+    let params = `?pagina=${pagina}`;
+    if (quartos !== undefined) {
+      params += `&quartos=${quartos}`;
+    }
+    if (valorinicial !== undefined) {
+      params += `&valorinicial=${valorinicial}`;
+    }
+    if (valorfinal !== undefined) {
+      params += `&valorfinal=${valorfinal}`;
+    }
+    return this.http.get<IImovelPaginacao[]>(`${this.apiUrl}${params}`);
   }
 
   obterUm(id: number): Observable<IImovel> {

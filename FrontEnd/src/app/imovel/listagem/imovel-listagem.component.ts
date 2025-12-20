@@ -7,23 +7,36 @@ import { Router } from '@angular/router';
 import { IImovel, IImovelPaginacao } from '../../interfaces/IImovel';
 import { PaginacaoComponent } from '../../../Componentes/Paginacao/paginacao.component';
 import { LINHAS_POR_PAGINA } from '../../../Componentes/Paginacao/paginacao.configuracao';
+import { DuasDecimaisDirective } from '../../../Diretivas/duas-decimais.diretiva';
+import { somenteNumerosDirective } from '../../../Diretivas/somente-numeros.diretiva';
 
 @Component({
   selector: 'app-imovel-listagem.component',
   templateUrl: './imovel-listagem.component.html',
   styleUrl: './imovel-listagem.component.scss',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, PaginacaoComponent],
+  imports: [ReactiveFormsModule, CommonModule, PaginacaoComponent, DuasDecimaisDirective, somenteNumerosDirective],
 })
 export class ImovelListagemComponent {
   Imovel: IImovelPaginacao[] = [];
   loading: boolean = false;
 
+  filtrosForm: FormGroup;
+
   constructor(
     private ImovelService: ImovelService,
     private cdr: ChangeDetectorRef,
     private router: Router
-  ) {}
+  ) {
+
+    this.filtrosForm = new FormGroup({
+      quartos: new FormControl(''),
+      valorInicial: new FormControl(''),
+      valorFinal: new FormControl('')
+    });
+
+
+  }
 
   ngOnInit(): void {
     this.carregarImoveis();
@@ -31,7 +44,8 @@ export class ImovelListagemComponent {
 
   carregarImoveis(pagina: number = 1): void {
     this.loading = true;
-    this.ImovelService.obterTodos(pagina).subscribe({
+    const { quartos, valorInicial, valorFinal } = this.filtrosForm.value;
+    this.ImovelService.obter(pagina, quartos, valorInicial, valorFinal).subscribe({
       next: (ufs) => {
         this.Imovel = ufs;
         this.totalLinhas = ufs[0]?.totalLinhas || 0;
