@@ -70,8 +70,8 @@ public class ImovelService : IImovelService {
             caracteristicas
         );
     }
-    public async Task<IEnumerable<ImovelPaginacaoDTO>> ObterImoveis(int pagina) {
-        var paginacaoResult = await ImovelRepository.Obter(pagina);
+    public async Task<IEnumerable<ImovelPaginacaoDTO>> ObterImoveis(int pagina, int? quartos, decimal? valorInicial, decimal? valorFinal) {
+        var paginacaoResult = await ImovelRepository.Obter(pagina,quartos, valorInicial, valorFinal);
 
         return paginacaoResult.Itens.Select(i => new ImovelPaginacaoDTO(
             i.Id,

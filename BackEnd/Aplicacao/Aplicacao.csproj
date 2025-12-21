@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RestEase" Version="1.6.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\Dominio.csproj" />
     <ProjectReference Include="..\Repository\Repositorio.csproj" />
     <ProjectReference Include="..\Util\Util.csproj" />

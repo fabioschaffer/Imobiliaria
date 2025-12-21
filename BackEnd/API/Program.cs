@@ -1,3 +1,4 @@
+using Aplicacao.DTOs.Ibge;
 using Aplicacao.Endereco.Interfaces;
 using Aplicacao.Endereco.Servicos;
 using Aplicacao.Imobiliaria.Interfaces;
@@ -12,12 +13,13 @@ using Repositorio.Interfaces;
 using Repositorio.Interfaces.ImovelNS;
 using Repositorio.Repositorios;
 using Repositorio.Repositorios.ImovelNS;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using RestEase;
 
 var builder = WebApplication.CreateBuilder(args);
 
 ConfiguraRepositorio(builder);
 ConfiguraService(builder);
+ConfiguraRestEaseIbge(builder);
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowAll", policy => {
@@ -80,4 +82,18 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IImovelService, ImovelService>();
     builder.Services.AddScoped<ITipoService, TipoService>();
     builder.Services.AddScoped<IOrcamentoService, T_OrcamentoService>();
+}
+
+static void ConfiguraRestEaseIbge(WebApplicationBuilder builder)
+{
+    builder.Services.AddHttpClient("IbgeClient", client =>
+    {
+        client.BaseAddress = new Uri("https://servicodados.ibge.gov.br/api/v1/");
+    });
+
+    builder.Services.AddScoped<IIbgeApi>(sp =>
+    {
+        var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient("IbgeClient");
+        return RestClient.For<IIbgeApi>(httpClient);
+    });
 }

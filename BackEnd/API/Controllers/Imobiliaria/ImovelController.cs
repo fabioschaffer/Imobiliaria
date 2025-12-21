@@ -27,10 +27,9 @@ public class ImovelController : ControllerBase {
     }
 
     [HttpGet]
-    public async Task<ImovelPaginacaoDTO[]> ObterTodos(int pagina) {
-        //Thread.Sleep(1000);
-        var unidades = await ImovelService.ObterImoveis(pagina);
-        return unidades.ToArray();
+    public async Task<ImovelPaginacaoDTO[]> Obter(int pagina,int? quartos, decimal? valorInicial, decimal? valorFinal) {
+        var imoveis = await ImovelService.ObterImoveis(pagina,  quartos, valorInicial,valorFinal);
+        return imoveis.ToArray();
     }
 
     [HttpGet("{id}")]

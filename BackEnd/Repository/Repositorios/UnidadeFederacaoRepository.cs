@@ -27,6 +27,13 @@ public class UnidadeFederacaoRepository : IUnidadeFederacaoRepository {
         await contexto.SaveChangesAsync();
     }
 
+    public async Task ExcluirTudo()
+    {
+        var todasUnidades = await contexto.UnidadesFederacao.ToListAsync();
+        contexto.UnidadesFederacao.RemoveRange(todasUnidades);
+        await contexto.SaveChangesAsync();
+    }
+
     public async Task<UnidadeFederacao> ObterPorId(int? id) {
         if (id == null) {
             throw new ArgumentNullException(nameof(id), "O ID não pode ser nulo.");
@@ -42,6 +49,6 @@ public class UnidadeFederacaoRepository : IUnidadeFederacaoRepository {
     }
 
     public async Task<IEnumerable<UnidadeFederacao>> ObterUnidadesFederacao() {
-        return await contexto.UnidadesFederacao.ToListAsync();
+        return await contexto.UnidadesFederacao.OrderBy(o => o.Nome).ToListAsync();
     }
 }

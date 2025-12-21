@@ -1,7 +1,11 @@
-.form-control:focus {
-  box-shadow: 0 0 0 0px rgba(var(--bs-primary-rgb), .25);
-}
-
-.form-check-input:focus{
+.form-check-input:focus,
+.form-control:focus,
+button:focus,
+button[type="button"]:focus,
+button[type="submit"]:focus,
+button[type="reset"]:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus {
   box-shadow: 0 0 0 0px rgba(var(--bs-primary-rgb), .25);
 }
