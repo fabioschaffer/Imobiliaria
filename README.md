@@ -2,9 +2,9 @@
 
 Passo a passo para colocar em produção:
 ## Front-end:
-alterar environments.ts para apontar para http://imob.runasp.net
-compilar: ng build --configuration production
-criar arquivo web.config:
+1. alterar environments.ts para apontar para http://imob.runasp.net
+2. compilar: ng build --configuration production
+3. criar arquivo web.config:
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
@@ -24,4 +24,4 @@ criar arquivo web.config:
   </system.webServer>
 </configuration>
 ```
-adicionar web.config no diretório wwwwroot
+4. adicionar web.config no diretório wwwwroot
