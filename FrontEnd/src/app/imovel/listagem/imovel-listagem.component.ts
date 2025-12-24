@@ -61,11 +61,11 @@ export class ImovelListagemComponent {
   }
 
   Novo() {
-    this.router.navigate(['/imovel/cadastro']);
+    this.router.navigate(['interno/imovel/cadastro']);
   }
 
   Editar(id: number) {
-    this.router.navigate(['/imovel/cadastro'], { queryParams: { imovelId: id } });
+    this.router.navigate(['interno/imovel/cadastro'], { queryParams: { imovelId: id } });
   }
 
   Excluir(imovel: IImovel) {

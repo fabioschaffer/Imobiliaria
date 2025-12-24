@@ -17,11 +17,11 @@ import { ToastComponent } from '../../../Componentes/Toast/toast.component';
 export class UnidadeFederacaoListagemComponent {
 
 
-@ViewChild(ToastComponent) toast!: ToastComponent;
+  @ViewChild(ToastComponent) toast!: ToastComponent;
 
-ImportarIBGE() {
+  ImportarIBGE() {
 
-        const confirmado = window.confirm(
+    const confirmado = window.confirm(
       `Tem certeza que deseja executar importação do IBGE?`
     );
 
@@ -29,7 +29,7 @@ ImportarIBGE() {
 
     this.unidadeFederacaoService.obterUfsIgbe().subscribe({
       next: () => {
-                      this.toast.show('Importação realizada com sucesso!');
+        this.toast.show('Importação realizada com sucesso!');
         this.carregarLista();
       },
       error: err => {
@@ -39,10 +39,10 @@ ImportarIBGE() {
     });
 
 
-}
-ExcluirTudo() {
+  }
+  ExcluirTudo() {
 
-      const confirmado = window.confirm(
+    const confirmado = window.confirm(
       `Tem certeza que deseja excluir tudo?`
     );
 
@@ -50,7 +50,7 @@ ExcluirTudo() {
 
     this.unidadeFederacaoService.excluirTudo().subscribe({
       next: () => {
-                      this.toast.show('Tudo excluído com sucesso!');
+        this.toast.show('Tudo excluído com sucesso!');
         this.carregarLista();
       },
       error: err => {
@@ -60,7 +60,7 @@ ExcluirTudo() {
     });
 
 
-}
+  }
   unidadesFederacao: UnidadeFederacao[] = [];
 
   constructor(
@@ -84,12 +84,12 @@ ExcluirTudo() {
   }
 
   Novo() {
-    this.router.navigate(['/unidadefederacaocadastro']);
+    this.router.navigate(['interno/uf/cadastro']);
   }
 
   Editar(id: number) {
     this.router.navigate(
-      ['/unidadefederacaocadastro'],
+      ['interno/uf/cadastro'],
       { queryParams: { id: id } }
     );
 

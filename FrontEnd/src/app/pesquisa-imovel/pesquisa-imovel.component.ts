@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pesquisa-imovel.component',
@@ -8,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class PesquisaImovelComponent {
 
+  constructor(private router: Router) { }
+
+  irParaLogin() {
+    this.router.navigate(['/login']);
+  }
 }
