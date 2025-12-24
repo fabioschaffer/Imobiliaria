@@ -1,6 +1,6 @@
 using Aplicacao.Endereco.DTOs;
 using Aplicacao.Endereco.Interfaces;
-using Aplicacao.Interfaces.ImovelNS;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Endereco;
@@ -46,4 +46,18 @@ public class UnidadeFederacaoController : ControllerBase {
         return true;
     }
 
+    [HttpDelete("ExcluirTudo")]
+    public async Task<IActionResult> ExcluirTudo()
+    {
+        await unidadeFederacaoService.ExcluirTudo();
+        return new OkResult();
+    }
+
+
+    [HttpPost("ObterUfsDoIbge")]
+    public async Task<IActionResult> ObterUfsDoIbge()
+    {
+        await unidadeFederacaoService.ObterUfsDoIbge();
+        return new OkResult();
+    }
 }

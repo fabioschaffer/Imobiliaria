@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UnidadeFederacao } from '../interfaces/unidade-federacao.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UnidadeFederacaoService {
-
   apiUrl: string = environment.apiUrl + '/UnidadeFederacao';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   criar(unidadeFederacao: UnidadeFederacao): Observable<number> {
     return this.http.post<number>(this.apiUrl, unidadeFederacao);
@@ -31,5 +30,13 @@ export class UnidadeFederacaoService {
 
   excluir(id: number): Observable<boolean> {
     return this.http.delete<boolean>(`${this.apiUrl}/${id}`);
+  }
+
+  excluirTudo(): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/ExcluirTudo`);
+  }
+
+  obterUfsIgbe(): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/ObterUfsDoIbge`, null);
   }
 }

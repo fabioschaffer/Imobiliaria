@@ -1,4 +1,5 @@
-﻿using Aplicacao.DTOs.Imovel;
+﻿using Aplicacao.DTOs.Ibge;
+using Aplicacao.DTOs.Imovel;
 using Aplicacao.Endereco.DTOs;
 using Aplicacao.Endereco.Interfaces;
 using Aplicacao.Interfaces.ImovelNS;
@@ -9,9 +10,11 @@ namespace Aplicacao.Endereco.Servicos;
 public class UnidadeFederacaoService : IUnidadeFederacaoService {
 
     private IUnidadeFederacaoRepository unidadeFederacaoRepository;
+    private IIbgeApi ibgeApi;
 
-    public UnidadeFederacaoService(IUnidadeFederacaoRepository unidadeFederacaoRepository) {
+    public UnidadeFederacaoService(IUnidadeFederacaoRepository unidadeFederacaoRepository, IIbgeApi ibgeApi) {
         this.unidadeFederacaoRepository = unidadeFederacaoRepository;
+        this.ibgeApi = ibgeApi;
     }
 
     public async Task<int> Criar(UnidadeFederacaoDTO unidadeFederacaoDTO) {
@@ -43,6 +46,11 @@ public class UnidadeFederacaoService : IUnidadeFederacaoService {
         await unidadeFederacaoRepository.Excluir(unidadeFederacao);
     }
 
+    public async Task ExcluirTudo()
+    {
+         await unidadeFederacaoRepository.ExcluirTudo();
+    }
+
     public async Task<UnidadeFederacaoDTO> ObterPorId(int? id) {
         if (id == null) {
             throw new ArgumentNullException(nameof(id), "Id cannot be null.");
@@ -66,5 +74,21 @@ public class UnidadeFederacaoService : IUnidadeFederacaoService {
             Id = uf.Id,
             Nome = uf.Nome
         });
+    }
+
+    public async Task ObterUfsDoIbge()
+    {
+        var ufs = await ibgeApi.GetUfsAsync();
+
+        foreach (var item in ufs)
+        {
+            var ufACriar = new UnidadeFederacaoDTO()
+            {
+                Id = item.Id,
+                Nome = item.Nome
+            };
+
+            await Criar(ufACriar);
+        }
     }
 }

@@ -8,4 +8,5 @@ public interface IUnidadeFederacaoRepository {
     Task<int> Criar(UnidadeFederacao unidadeFederacao);
     Task Atualizar(UnidadeFederacao unidadeFederacao);
     Task Excluir(UnidadeFederacao unidadeFederacao);
+    Task ExcluirTudo();
 }
