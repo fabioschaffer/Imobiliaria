@@ -72,6 +72,7 @@ static void ConfiguraRepositorio(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IImovelRepository, ImovelRepository>();
     builder.Services.AddScoped<ITipoRepository, TipoRepository>();
     builder.Services.AddScoped<IOrcamentoRepository, OrcamentoRepository>();
+    builder.Services.AddScoped<IPesquisaImovelRepository, PesquisaImovelRepository>();
 }
 
 static void ConfiguraService(WebApplicationBuilder builder) {
@@ -80,4 +81,5 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IImovelService, ImovelService>();
     builder.Services.AddScoped<ITipoService, TipoService>();
     builder.Services.AddScoped<IOrcamentoService, T_OrcamentoService>();
+    builder.Services.AddScoped<IPesquisaImovelService, PesquisaImovelService>();
 }

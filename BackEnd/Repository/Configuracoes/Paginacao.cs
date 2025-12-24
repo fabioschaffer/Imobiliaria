@@ -8,6 +8,7 @@ namespace Repositorio.Configuracoes
 {
     public static class Paginacao
     {
-        public const int LinhasPorPagina = 3;
+        public const int LinhasPorPagina = 5;
+        public const int LinhasPorPaginaPesquisaImovel = 5;
     }
 }
