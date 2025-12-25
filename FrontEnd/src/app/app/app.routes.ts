@@ -14,7 +14,7 @@ export const routes: Routes = [
 
     {
         path: 'interno',
-        component: InicialComponent, // layout
+        component: InicialComponent,
         children: [
             {
                 path: 'inicial',
