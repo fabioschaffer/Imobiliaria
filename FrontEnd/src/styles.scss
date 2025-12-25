@@ -1,3 +1,9 @@
+html, body {
+  height: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .form-check-input:focus,
 .form-control:focus,
 button:focus,
