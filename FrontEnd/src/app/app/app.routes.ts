@@ -12,6 +12,11 @@ import { SobreComponent } from '../externo/sobre/sobre.component';
 
 export const routes: Routes = [
     {
+        path: '',
+        redirectTo: 'externo/pesquisa-imovel',
+        pathMatch: 'full'
+    },
+    {
         path: 'externo',
         component: InicialExternoComponent,
         children: [
@@ -26,7 +31,8 @@ export const routes: Routes = [
             {
                 path: 'sobre',
                 component: SobreComponent
-            }]
+            }
+        ]
     },
     {
         path: 'interno',
