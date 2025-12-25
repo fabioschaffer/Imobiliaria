@@ -3,15 +3,22 @@ import { UnidadeFederacaoListagemComponent } from '../unidade-federacao/listagem
 import { ImovelCadastroComponent } from '../imovel/cadastro/imovel-cadastro.component';
 import { ImovelListagemComponent } from '../imovel/listagem/imovel-listagem.component';
 import { PesquisaImovelComponent } from '../pesquisa-imovel/pesquisa-imovel.component';
-import { LoginComponent } from '../login/login.component';
 import { InicialComponent } from './interno/inicial/inicial.component';
 import { HomeComponent } from '../interno/home/home.component';
 import { UnidadeFederacaoCadastroComponent } from '../unidade-federacao/cadastro/unidade-federacao-cadastro.component';
+import { InicialExternoComponent } from '../externo/inicial/inicial.externo.component';
 
 export const routes: Routes = [
-    { path: '', component: PesquisaImovelComponent },
-    { path: 'login', component: LoginComponent },
-
+    {
+        path: 'externo',
+        component: InicialExternoComponent,
+        children: [
+            {
+                path: 'pesquisa-imovel',
+                component: PesquisaImovelComponent
+            }
+        ]
+    },
     {
         path: 'interno',
         component: InicialComponent,
@@ -55,11 +62,6 @@ export const routes: Routes = [
                         pathMatch: 'full'
                     }
                 ]
-            },
-            {
-                path: '',
-                redirectTo: 'inicial',
-                pathMatch: 'full'
             }
         ]
     }
