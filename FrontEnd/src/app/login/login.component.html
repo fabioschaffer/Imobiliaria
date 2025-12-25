@@ -1,5 +1,28 @@
-<p>login.component works!</p>
+<h3 class="text-center p-3">Login</h3>
 
-<button class="btn btn-success" (click)="entrar()">
-    Entrar
-</button>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+
+            <form [formGroup]="camposForm" (ngSubmit)="entrar()" class="card p-4 shadow-sm">
+
+                <div class="mb-3">
+                    <label class="form-label">Login</label>
+                    <input type="text" class="form-control" formControlName="login">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <input type="password" class="form-control" formControlName="senha">
+                </div>
+
+                <button type="submit" class="btn btn-primary d-block mx-auto">
+                    Entrar
+                </button>
+
+
+            </form>
+
+        </div>
+    </div>
+</div>
