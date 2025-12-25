@@ -7,6 +7,8 @@ import { InicialComponent } from './interno/inicial/inicial.component';
 import { HomeComponent } from '../interno/home/home.component';
 import { UnidadeFederacaoCadastroComponent } from '../unidade-federacao/cadastro/unidade-federacao-cadastro.component';
 import { InicialExternoComponent } from '../externo/inicial/inicial.externo.component';
+import { LoginComponent } from '../login/login.component';
+import { SobreComponent } from '../externo/sobre/sobre.component';
 
 export const routes: Routes = [
     {
@@ -16,8 +18,15 @@ export const routes: Routes = [
             {
                 path: 'pesquisa-imovel',
                 component: PesquisaImovelComponent
-            }
-        ]
+            },
+            {
+                path: 'login',
+                component: LoginComponent
+            },
+            {
+                path: 'sobre',
+                component: SobreComponent
+            }]
     },
     {
         path: 'interno',
