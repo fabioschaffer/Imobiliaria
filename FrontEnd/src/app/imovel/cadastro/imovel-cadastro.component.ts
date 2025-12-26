@@ -22,7 +22,17 @@ import { IImovelCaracteristica } from '../../interfaces/IImovelCaracteristica';
   styleUrl: './imovel-cadastro.component.scss',
 })
 export class ImovelCadastroComponent {
+  getTitulo() {
+    if (this.visualizando) {
+      return 'Imóvel - Visualização';
+    } else if (this.imovelId != null) {
+      return 'Imóvel - Edição';
+    } else {
+      return 'Imóvel - Inclusão';
+    }
+  }
   imovelId: number | null = null;
+  visualizando: boolean = false;
 
   @ViewChild(ToastComponent) toast!: ToastComponent;
 
@@ -52,6 +62,9 @@ export class ImovelCadastroComponent {
   ngOnInit(): void {
     this.carregarTiposImovel();
     this.carregarImovel();
+    if (this.visualizando) {
+      this.dadosIniciaisForm.disable();
+    }
   }
 
   carregarCaracteristicas(selecionadas: IImovelCaracteristica[]) {
@@ -82,6 +95,8 @@ export class ImovelCadastroComponent {
   carregarImovel() {
     this.route.queryParams.subscribe(params => {
       this.imovelId = params['imovelId'];
+      this.visualizando = params['visualizacao'] === 'true';
+      this.cdr.detectChanges();
       if (this.imovelId != null) {
         this.imovelService.obterUm(this.imovelId)
           .subscribe(imovel => {

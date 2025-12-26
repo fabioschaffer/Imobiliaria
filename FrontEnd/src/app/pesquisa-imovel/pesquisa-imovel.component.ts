@@ -68,7 +68,7 @@ export class PesquisaImovelComponent {
   }
 
   Editar(id: number) {
-    this.router.navigate(['interno/imovel/cadastro'], { queryParams: { imovelId: id } });
+    this.router.navigate(['interno/imovel/cadastro'], { queryParams: { imovelId: id, visualizacao: true } });
   }
 
   Excluir(imovel: IImovel) {
