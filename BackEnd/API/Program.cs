@@ -7,6 +7,7 @@ using Aplicacao.Interfaces.ImovelNS;
 using Aplicacao.Interfaces.T_Orcamento;
 using Aplicacao.Servicos.Imovel;
 using Aplicacao.Servicos.T_Orcamento;
+using InfraEstrutura;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;
@@ -47,6 +48,9 @@ builder.Logging.AddEventLog(settings => {
 
 
 builder.Logging.AddLog4Net("log4net.config");
+
+// 2. Chama a infra para garantir que o SQLite de logs exista
+builder.Services.AddLoggingInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
