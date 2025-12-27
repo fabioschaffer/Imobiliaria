@@ -19,4 +19,10 @@
     <ProjectReference Include="..\Repository\Repositorio.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

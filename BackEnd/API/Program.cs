@@ -45,6 +45,9 @@ builder.Logging.AddEventLog(settings => {
     settings.LogName = "Application";         // Log onde será gravado (Application é o padrão)
 });
 
+
+builder.Logging.AddLog4Net("log4net.config");
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
