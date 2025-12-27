@@ -33,11 +33,21 @@ builder.Services.AddCors(options => {
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+// Adiciona os serviços de Logging.
+builder.Logging.ClearProviders();
+
+// Para ver os logs no terminal.
+builder.Logging.AddConsole();
+
+// Configuração Log no Event-Viewer do Windows.
+builder.Logging.AddEventLog(settings => {
+    settings.SourceName = "ImobiliariaApp"; // Nome que aparecerá na coluna 'Origem'
+    settings.LogName = "Application";         // Log onde será gravado (Application é o padrão)
+});
+
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment()) {
-    app.MapOpenApi();
-}
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseHttpsRedirection();
 
@@ -51,21 +61,16 @@ app.Run();
 
 static void ConfiguraRepositorio(WebApplicationBuilder builder) {
     builder.Services.AddDbContext<AplicacaoDbContext>(
-        options =>
-        {
+        options => {
             var provider = builder.Configuration["Database:Provider"];
             var connection = string.Empty;
-            if (provider == "SQLServer")
-            {
+            if (provider == "SQLServer") {
                 connection = builder.Configuration["Database:ConnectionString_SQLServer"];
                 options.UseSqlServer(connection);
-            }
-            else if (provider == "SQLite")
-            {
+            } else if (provider == "SQLite") {
                 connection = builder.Configuration["Database:ConnectionString_SQLite"];
                 options.UseSqlite(connection);
-            }
-            else
+            } else
                 throw new Exception("Provider de banco inv�lido");
         });
 
@@ -86,15 +91,12 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IPesquisaImovelService, PesquisaImovelService>();
 }
 
-static void ConfiguraRestEaseIbge(WebApplicationBuilder builder)
-{
-    builder.Services.AddHttpClient("IbgeClient", client =>
-    {
+static void ConfiguraRestEaseIbge(WebApplicationBuilder builder) {
+    builder.Services.AddHttpClient("IbgeClient", client => {
         client.BaseAddress = new Uri("https://servicodados.ibge.gov.br/api/v1/");
     });
 
-    builder.Services.AddScoped<IIbgeApi>(sp =>
-    {
+    builder.Services.AddScoped<IIbgeApi>(sp => {
         var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient("IbgeClient");
         return RestClient.For<IIbgeApi>(httpClient);
     });

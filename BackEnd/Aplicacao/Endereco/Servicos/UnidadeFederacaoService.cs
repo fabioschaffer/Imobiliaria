@@ -1,21 +1,16 @@
 ﻿using Aplicacao.DTOs.Ibge;
-using Aplicacao.DTOs.Imovel;
 using Aplicacao.Endereco.DTOs;
 using Aplicacao.Endereco.Interfaces;
-using Aplicacao.Interfaces.ImovelNS;
 using Dominio.Entidades.EnderecoNS;
+using Microsoft.Extensions.Logging;
 using Repositorio.Interfaces;
 
 namespace Aplicacao.Endereco.Servicos;
-public class UnidadeFederacaoService : IUnidadeFederacaoService {
 
-    private IUnidadeFederacaoRepository unidadeFederacaoRepository;
-    private IIbgeApi ibgeApi;
-
-    public UnidadeFederacaoService(IUnidadeFederacaoRepository unidadeFederacaoRepository, IIbgeApi ibgeApi) {
-        this.unidadeFederacaoRepository = unidadeFederacaoRepository;
-        this.ibgeApi = ibgeApi;
-    }
+public class UnidadeFederacaoService(
+        IUnidadeFederacaoRepository unidadeFederacaoRepository,
+        IIbgeApi ibgeApi,
+        ILogger<UnidadeFederacaoService> logger) : IUnidadeFederacaoService {
 
     public async Task<int> Criar(UnidadeFederacaoDTO unidadeFederacaoDTO) {
 
@@ -35,6 +30,7 @@ public class UnidadeFederacaoService : IUnidadeFederacaoService {
         unidadeFederacao.Atualizar(unidadeFederacaoDTO.Nome);
 
         await unidadeFederacaoRepository.Atualizar(unidadeFederacao);
+        logger.LogInformation($"UnidadeFederacao com Id {id} atualizada com sucesso.");
     }
 
     public async Task Excluir(int? id) {
@@ -46,9 +42,8 @@ public class UnidadeFederacaoService : IUnidadeFederacaoService {
         await unidadeFederacaoRepository.Excluir(unidadeFederacao);
     }
 
-    public async Task ExcluirTudo()
-    {
-         await unidadeFederacaoRepository.ExcluirTudo();
+    public async Task ExcluirTudo() {
+        await unidadeFederacaoRepository.ExcluirTudo();
     }
 
     public async Task<UnidadeFederacaoDTO> ObterPorId(int? id) {
@@ -76,14 +71,11 @@ public class UnidadeFederacaoService : IUnidadeFederacaoService {
         });
     }
 
-    public async Task ObterUfsDoIbge()
-    {
+    public async Task ObterUfsDoIbge() {
         var ufs = await ibgeApi.GetUfsAsync();
 
-        foreach (var item in ufs)
-        {
-            var ufACriar = new UnidadeFederacaoDTO()
-            {
+        foreach (var item in ufs) {
+            var ufACriar = new UnidadeFederacaoDTO() {
                 Id = item.Id,
                 Nome = item.Nome
             };
