@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace InfraEstrutura;
 
@@ -44,6 +45,31 @@ public static class DependencyInjection {
             System.Console.WriteLine($"Erro ao inicializar banco de logs SQLite: {ex.Message}");
         }
 
+        return services;
+    }
+
+    public static IServiceCollection AddSeriLogInfrastructure(this IServiceCollection services, IConfiguration configuration) {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+
+            // Não salvar log de avisos de HTTPS, Hosting e Logs de Request/Response
+            .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.AspNetCore", Serilog.Events.LogEventLevel.Error)
+
+            // Não salvar log de avisos de Schema do SQLite (os registros 2 a 8 da sua imagem)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", Serilog.Events.LogEventLevel.Error)
+
+            // Não salvar log logs internos do sistema .NET
+            .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Error)
+
+            .Enrich.FromLogContext()
+            // Configurações de Sink (Arquivo e SQLite)
+            .WriteTo.File("logs/app-.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.SQLite(
+                sqliteDbPath: "logs_serilog.db",
+                tableName: "Logs",
+                storeTimestampInUtc: true)
+            .CreateLogger();
         return services;
     }
 }

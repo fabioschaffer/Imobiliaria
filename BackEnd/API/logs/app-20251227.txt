@@ -1,0 +1,25 @@
+2025-12-27 18:28:49.047 -03:00 [WRN] Failed to determine the https port for redirect.
+2025-12-27 18:28:51.636 -03:00 [WRN] The entity type 'Cidade' is configured to use schema 'Endereco', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+2025-12-27 18:28:51.640 -03:00 [WRN] The entity type 'Endereco' is configured to use schema 'Endereco', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+2025-12-27 18:28:51.641 -03:00 [WRN] The entity type 'UnidadeFederacao' is configured to use schema 'Endereco', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+2025-12-27 18:28:51.642 -03:00 [WRN] The entity type 'Caracteristica' is configured to use schema 'Imobiliaria', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+2025-12-27 18:28:51.642 -03:00 [WRN] The entity type 'Imovel' is configured to use schema 'Imobiliaria', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+2025-12-27 18:28:51.642 -03:00 [WRN] The entity type 'ImovelCaracteristica' is configured to use schema 'Imobiliaria', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+2025-12-27 18:28:51.644 -03:00 [WRN] The entity type 'Tipo' is configured to use schema 'Imovel', but SQLite does not support schemas. This configuration will be ignored by the SQLite provider.
+2025-12-27 18:28:52.817 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso.
+2025-12-27 18:37:28.699 -03:00 [INF] Now listening on: http://localhost:5232
+2025-12-27 18:37:28.919 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-12-27 18:37:28.920 -03:00 [INF] Hosting environment: Development
+2025-12-27 18:37:28.921 -03:00 [INF] Content root path: C:\GitHub\Imobiliaria\BackEnd\API
+2025-12-27 18:37:38.676 -03:00 [INF] Request starting HTTP/1.1 PUT http://localhost:5232/UnidadeFederacao/137 - application/json 21
+2025-12-27 18:37:38.771 -03:00 [WRN] Failed to determine the https port for redirect.
+2025-12-27 18:37:38.784 -03:00 [INF] Executing endpoint 'API.Controllers.Endereco.UnidadeFederacaoController.Atualizar (API)'
+2025-12-27 18:37:38.843 -03:00 [INF] Route matched with {action = "Atualizar", controller = "UnidadeFederacao"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.Boolean] Atualizar(Int32, Aplicacao.Endereco.DTOs.UnidadeFederacaoDTO) on controller API.Controllers.Endereco.UnidadeFederacaoController (API).
+2025-12-27 18:37:42.367 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso.
+2025-12-27 18:37:42.382 -03:00 [INF] Executing ObjectResult, writing value of type 'System.Boolean'.
+2025-12-27 18:37:42.414 -03:00 [INF] Executed action API.Controllers.Endereco.UnidadeFederacaoController.Atualizar (API) in 3553.7062ms
+2025-12-27 18:37:42.415 -03:00 [INF] Executed endpoint 'API.Controllers.Endereco.UnidadeFederacaoController.Atualizar (API)'
+2025-12-27 18:37:42.444 -03:00 [INF] Request finished HTTP/1.1 PUT http://localhost:5232/UnidadeFederacao/137 - 200 null application/json; charset=utf-8 3791.141ms
+2025-12-27 18:40:45.661 -03:00 [WRN] Failed to determine the https port for redirect.
+2025-12-27 18:40:48.485 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso.
+2025-12-27 18:42:46.674 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso.

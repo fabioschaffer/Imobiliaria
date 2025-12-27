@@ -15,6 +15,7 @@ using Repositorio.Interfaces.ImovelNS;
 using Repositorio.Repositorios;
 using Repositorio.Repositorios.ImovelNS;
 using RestEase;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,10 +48,14 @@ builder.Logging.AddEventLog(settings => {
 });
 
 
+//Configuração do Log4Net.
 builder.Logging.AddLog4Net("log4net.config");
-
-// 2. Chama a infra para garantir que o SQLite de logs exista
 builder.Services.AddLoggingInfrastructure(builder.Configuration);
+
+//Configuração do SeriLog.
+builder.Services.AddSeriLogInfrastructure(builder.Configuration);
+
+builder.Services.AddLogging(loggingBuilder => {loggingBuilder.AddSerilog(dispose: true);});
 
 var app = builder.Build();
 
