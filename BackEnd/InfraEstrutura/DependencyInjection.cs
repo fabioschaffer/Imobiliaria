@@ -63,12 +63,16 @@ public static class DependencyInjection {
             .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Error)
 
             .Enrich.FromLogContext()
-            // Configurações de Sink (Arquivo e SQLite)
+
+            // Configurações para salvar em Arquivo.
             .WriteTo.File("logs/app-.txt", rollingInterval: RollingInterval.Day)
+
+            // Configurações para salvar no SQLite.
             .WriteTo.SQLite(
                 sqliteDbPath: "logs_serilog.db",
                 tableName: "Logs",
                 storeTimestampInUtc: true)
+
             .CreateLogger();
         return services;
     }

@@ -30,7 +30,11 @@ public class UnidadeFederacaoService(
         unidadeFederacao.Atualizar(unidadeFederacaoDTO.Nome);
 
         await unidadeFederacaoRepository.Atualizar(unidadeFederacao);
-        logger.LogInformation($"UnidadeFederacao com Id {id} atualizada com sucesso.");
+        //logger.LogInformation($"UnidadeFederacao com Id {id} atualizada com sucesso. Dados recebidos do Dto: {@unidadeFederacaoDTO}");
+        //logger.LogInformation("Unidade Federativa atualizada " + $"ID: {id}" + ": {@UF}", unidadeFederacaoDTO);
+
+        //Exemplo via serilog. Salva o objeto e seus valores no log.
+        logger.LogInformation("Unidade Federativa atualizada, v2, {@id}, {@UF}", id, unidadeFederacaoDTO);
     }
 
     public async Task Excluir(int? id) {

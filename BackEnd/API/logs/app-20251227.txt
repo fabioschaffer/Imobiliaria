@@ -23,3 +23,8 @@
 2025-12-27 18:40:45.661 -03:00 [WRN] Failed to determine the https port for redirect.
 2025-12-27 18:40:48.485 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso.
 2025-12-27 18:42:46.674 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso.
+2025-12-27 18:46:22.340 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso. Dados recebidos do Dto: Aplicacao.Endereco.DTOs.UnidadeFederacaoDTO
+2025-12-27 18:48:43.250 -03:00 [INF] UnidadeFederacao com Id 137 atualizada com sucesso. Dados recebidos do Dto: Aplicacao.Endereco.DTOs.UnidadeFederacaoDTO
+2025-12-27 18:49:42.282 -03:00 [INF] Unidade Federativa atualizada: {"Id":0,"Nome":"UF 10","$type":"UnidadeFederacaoDTO"}
+2025-12-27 18:51:25.099 -03:00 [INF] Unidade Federativa atualizada ID: 137: {"Id":0,"Nome":"UF 10","$type":"UnidadeFederacaoDTO"}
+2025-12-27 18:52:50.253 -03:00 [INF] Unidade Federativa atualizada, v2, 137, {"Id":0,"Nome":"UF 10","$type":"UnidadeFederacaoDTO"}
