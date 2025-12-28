@@ -110,7 +110,6 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IOrcamentoService, T_OrcamentoService>();
     builder.Services.AddScoped<IPesquisaImovelService, PesquisaImovelService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
-    builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
     builder.Services.AddScoped<IAtenticacaoService, AtenticacaoService>(); 
 }
 

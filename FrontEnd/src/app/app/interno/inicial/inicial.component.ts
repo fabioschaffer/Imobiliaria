@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, Router } from '@angular/router';
+import { AuthService } from '../../../security/auth.service';
 
 @Component({
   selector: 'app-inicial.component',
@@ -9,4 +10,14 @@ import { RouterOutlet, RouterLink } from '@angular/router';
 })
 export class InicialComponent {
   protected readonly title = signal('FrontEnd');
+
+  constructor(private router: Router, private authService: AuthService) {
+  }
+
+
+  LogOut() {
+    this.authService.logout();
+    this.router.navigate(['/externo/pesquisa-imovel']);
+  }
+
 }

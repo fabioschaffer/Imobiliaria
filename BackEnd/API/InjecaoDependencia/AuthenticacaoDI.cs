@@ -19,7 +19,8 @@ public static class AuthenticacaoDI {
                     ValidAudience = configuration["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)
-                    )
+                    ),
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Aplicacao.Servicos;
 
-public class AtenticacaoService(ITokenService tokenService, IRefreshTokenService refreshTokenService, IRefreshTokenRepository refreshTokenRepository) : IAtenticacaoService {
+public class AtenticacaoService(ITokenService tokenService,  IRefreshTokenRepository refreshTokenRepository) : IAtenticacaoService {
 
     public async Task<LoginResponseDTO> Autenticar(LoginRequestDTO dto) {
 
@@ -26,6 +26,15 @@ public class AtenticacaoService(ITokenService tokenService, IRefreshTokenService
             Role = "Admin"
         };
 
+        var newToken = await GeraToken(user);
+
+        return new LoginResponseDTO(
+            token: newToken.token,
+            refreshtoken: newToken.refreshToken
+        );
+    }
+
+    private  async Task<NewToken> GeraToken( User user) {
         var token = tokenService.GenerateToken(user);
         var refreshToken = tokenService.GenerateRefreshToken();
 
@@ -36,10 +45,34 @@ public class AtenticacaoService(ITokenService tokenService, IRefreshTokenService
             ExpiresAt = DateTime.UtcNow.AddDays(7)
         });
 
-        return new LoginResponseDTO(
+        return new NewToken(
             token: token,
-            refreshtoken: refreshToken
+            refreshToken: refreshToken
         );
     }
+
+    public async Task<RefreshTokenResponseDTO> RefreshToken(string refreshToken) {
+        var storedToken = await refreshTokenRepository.GetByTokenAsync(refreshToken);
+
+        if (storedToken == null || storedToken.IsExpired)
+            throw new UnauthorizedAccessException();
+
+        await refreshTokenRepository.RevokeAsync(storedToken);
+
+        var user = new User {
+            Id = Guid.NewGuid(),
+            Login = "admin",
+            Role = "Admin"
+        };
+
+        var newToken = await GeraToken(user);
+
+        return new RefreshTokenResponseDTO(
+            token: newToken.token,
+            refreshtoken: newToken.refreshToken
+        );
+    }
+
+    private record NewToken(string token, string refreshToken);
 
 }

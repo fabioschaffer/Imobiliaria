@@ -16,11 +16,26 @@ export class AuthService {
         return this.http.post<any>(`${this.API}/login`, { Login: login, Password: senha })
             .pipe(
                 tap(response => {
-                    localStorage.setItem('access_token', response.token);
-                    localStorage.setItem('refresh_token', response.refreshToken);
+                    this.storeTokens(response);
                 })
             );
     }
+
+    refreshToken() {
+        return this.http.post<any>(`${this.API}/refresh`, { RefreshToken: localStorage.getItem('refresh_token') }
+        ).pipe(
+            tap(response => {
+                this.storeTokens(response);
+            })
+        );
+
+    }
+
+    storeTokens(response: any) {
+        localStorage.setItem('access_token', response.token);
+        localStorage.setItem('refresh_token', response.refreshToken);
+    }
+
 
     logout() {
         localStorage.removeItem('access_token');

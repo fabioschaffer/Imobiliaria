@@ -10,7 +10,7 @@ namespace API.Controllers.Auth;
 
 [ApiController]
 [Route("api/auth")]
-public class AuthController(ITokenService tokenService, IRefreshTokenService refreshTokenService, IAtenticacaoService atenticacaoService) : ControllerBase {
+public class AuthController(ITokenService tokenService, IAtenticacaoService atenticacaoService) : ControllerBase {
 
     [AllowAnonymous]
     [HttpPost("login")]
@@ -19,16 +19,12 @@ public class AuthController(ITokenService tokenService, IRefreshTokenService ref
         return Ok(new { token = auteticado.token, refreshToken = auteticado.refreshtoken });
     }
 
-    [HttpPost("refresh")]
+
     [AllowAnonymous]
+    [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(RefreshRequest request) {
-        var newAccessToken = await refreshTokenService.ExecuteAsync(
-            request.RefreshToken
-        );
-
-        var refreshToken = tokenService.GenerateRefreshToken();
-
-        return Ok(new { token = newAccessToken, refreshToken });
+        var newToken = await atenticacaoService.RefreshToken(request.RefreshToken);
+        return Ok(new { token = newToken.token, refreshToken = newToken.refreshtoken });
     }
 
     public record RefreshRequest(string RefreshToken);

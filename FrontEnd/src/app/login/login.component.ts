@@ -17,8 +17,8 @@ export class LoginComponent {
 
   constructor(private router: Router, private authService: AuthService) {
     this.camposForm = new FormGroup({
-      login: new FormControl('', Validators.required),
-      senha: new FormControl('', Validators.required),
+      login: new FormControl('admin', Validators.required),
+      senha: new FormControl('admin', Validators.required),
     });
   }
 
