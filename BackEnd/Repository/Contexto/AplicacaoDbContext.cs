@@ -40,4 +40,6 @@ public class AplicacaoDbContext : DbContext {
 
     public DbSet<Dominio.Entidades.Testes.T_Orcamento> Orcamentos { get; set; }
     public DbSet<Dominio.Entidades.Testes.T_Orcamento_Servicos> OrcamentoServicos { get; set; }
+
+    public DbSet<Dominio.Entidades.Seguranca.RefreshToken> RefreshTokens { get; set; }
 }

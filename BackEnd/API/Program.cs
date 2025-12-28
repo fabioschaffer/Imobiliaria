@@ -7,6 +7,7 @@ using Aplicacao.Imobiliaria.Servicos;
 using Aplicacao.Interfaces;
 using Aplicacao.Interfaces.ImovelNS;
 using Aplicacao.Interfaces.T_Orcamento;
+using Aplicacao.Servicos;
 using Aplicacao.Servicos.Imovel;
 using Aplicacao.Servicos.T_Orcamento;
 using InfraEstrutura;
@@ -100,6 +101,7 @@ static void ConfiguraRepositorio(WebApplicationBuilder builder) {
     builder.Services.AddScoped<ITipoRepository, TipoRepository>();
     builder.Services.AddScoped<IOrcamentoRepository, OrcamentoRepository>();
     builder.Services.AddScoped<IPesquisaImovelRepository, PesquisaImovelRepository>();
+    builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 }
 
 static void ConfiguraService(WebApplicationBuilder builder) {
@@ -110,6 +112,8 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IOrcamentoService, T_OrcamentoService>();
     builder.Services.AddScoped<IPesquisaImovelService, PesquisaImovelService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
+    builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+    builder.Services.AddScoped<IAtenticacaoService, AtenticacaoService>(); 
 }
 
 static void ConfiguraRestEaseIbge(WebApplicationBuilder builder) {

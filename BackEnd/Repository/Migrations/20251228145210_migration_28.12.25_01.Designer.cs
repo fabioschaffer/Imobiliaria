@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositorio.Contexto;
 
@@ -10,9 +11,11 @@ using Repositorio.Contexto;
 namespace Repositorio.Migrations
 {
     [DbContext(typeof(AplicacaoDbContext))]
-    partial class AplicacaoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251228145210_migration_28.12.25_01")]
+    partial class migration_281225_01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
@@ -176,12 +179,12 @@ namespace Repositorio.Migrations
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Refresh_Token")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("Revoked")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
