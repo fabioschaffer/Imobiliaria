@@ -1,5 +1,6 @@
 ﻿using Aplicacao.Interfaces;
 using Dominio.Entidades.Seguranca;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Auth;
@@ -13,6 +14,7 @@ public class AuthController : ControllerBase {
         _tokenService = tokenService;
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request) {
         if (request.Login != "admin" || request.Password != "admin")

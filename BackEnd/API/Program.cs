@@ -50,22 +50,20 @@ builder.Logging.AddEventLog(settings => {
     settings.LogName = "Application";         // Log onde será gravado (Application é o padrão)
 });
 
-
 //Configuração do Log4Net.
 builder.Logging.AddLog4Net("log4net.config");
 builder.Services.AddLoggingInfrastructure(builder.Configuration);
 
 //Configuração do SeriLog.
 builder.Services.AddSeriLogInfrastructure(builder.Configuration);
-
 builder.Services.AddLogging(loggingBuilder => {loggingBuilder.AddSerilog(dispose: true);});
 
-
-
+//Configuração da Autenticação.
 builder.Services.AddAuthenticationDI(builder.Configuration);
 
 var app = builder.Build();
 
+//Configuração do Middleware de autenticação e autorização.
 app.UseAuthentication();
 app.UseAuthorization();
 
