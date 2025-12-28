@@ -9,6 +9,7 @@ import { UnidadeFederacaoCadastroComponent } from '../unidade-federacao/cadastro
 import { InicialExternoComponent } from '../externo/inicial/inicial.externo.component';
 import { LoginComponent } from '../login/login.component';
 import { SobreComponent } from '../externo/sobre/sobre.component';
+import { authGuard } from '../security/auth.guard';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,7 @@ export const routes: Routes = [
     },
     {
         path: 'interno',
+        canActivate: [authGuard],
         component: InicialComponent,
         children: [
             {

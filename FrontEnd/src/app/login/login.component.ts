@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../security/auth.service';
 
 @Component({
   selector: 'app-login.component',
@@ -14,7 +15,7 @@ export class LoginComponent {
   camposForm: FormGroup;
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.camposForm = new FormGroup({
       login: new FormControl('', Validators.required),
       senha: new FormControl('', Validators.required),
@@ -22,7 +23,11 @@ export class LoginComponent {
   }
 
   entrar() {
-    // aqui depois você pode validar login/token
-    this.router.navigate(['/interno/inicial']);
+    this.authService.login(this.camposForm.value.login, this.camposForm.value.senha)
+      .subscribe({
+        next: () => this.router.navigate(['/interno/inicial']),
+        error: () => alert('Login inválido')
+      });
   }
+
 }

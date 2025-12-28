@@ -64,6 +64,8 @@ builder.Services.AddAuthenticationDI(builder.Configuration);
 
 var app = builder.Build();
 
+app.UseCors("AllowAll");
+
 //Configuração do Middleware de autenticação e autorização.
 app.UseAuthentication();
 app.UseAuthorization();
@@ -71,10 +73,6 @@ app.UseAuthorization();
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
-
-app.UseAuthorization();
 
 app.MapControllers();
 
