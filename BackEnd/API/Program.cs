@@ -1,13 +1,16 @@
+using API.InjecaoDependencia;
 using Aplicacao.DTOs.Ibge;
 using Aplicacao.Endereco.Interfaces;
 using Aplicacao.Endereco.Servicos;
 using Aplicacao.Imobiliaria.Interfaces;
 using Aplicacao.Imobiliaria.Servicos;
+using Aplicacao.Interfaces;
 using Aplicacao.Interfaces.ImovelNS;
 using Aplicacao.Interfaces.T_Orcamento;
 using Aplicacao.Servicos.Imovel;
 using Aplicacao.Servicos.T_Orcamento;
 using InfraEstrutura;
+using InfraEstrutura.Seguranca;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
 using Repositorio.Interfaces;
@@ -57,7 +60,14 @@ builder.Services.AddSeriLogInfrastructure(builder.Configuration);
 
 builder.Services.AddLogging(loggingBuilder => {loggingBuilder.AddSerilog(dispose: true);});
 
+
+
+builder.Services.AddAuthenticationDI(builder.Configuration);
+
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
@@ -101,6 +111,7 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<ITipoService, TipoService>();
     builder.Services.AddScoped<IOrcamentoService, T_OrcamentoService>();
     builder.Services.AddScoped<IPesquisaImovelService, PesquisaImovelService>();
+    builder.Services.AddScoped<ITokenService, TokenService>();
 }
 
 static void ConfiguraRestEaseIbge(WebApplicationBuilder builder) {

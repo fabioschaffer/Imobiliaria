@@ -1,0 +1,1 @@
+2025-12-28 10:07:10.668 -03:00 [INF] Unidade Federativa atualizada, v2, 137, {"Id":0,"Nome":"UF 10","$type":"UnidadeFederacaoDTO"}
