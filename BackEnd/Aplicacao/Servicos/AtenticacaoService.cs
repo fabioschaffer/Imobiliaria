@@ -21,9 +21,7 @@ public class AtenticacaoService(ITokenService tokenService,  IRefreshTokenReposi
             return null;
 
         var user = new User {
-            Id = Guid.NewGuid(),
-            Login = dto.Login,
-            Role = "Admin"
+            Id = "1"
         };
 
         var newToken = await GeraToken(user);
@@ -60,9 +58,7 @@ public class AtenticacaoService(ITokenService tokenService,  IRefreshTokenReposi
         await refreshTokenRepository.RevokeAsync(storedToken);
 
         var user = new User {
-            Id = Guid.NewGuid(),
-            Login = "admin",
-            Role = "Admin"
+            Id = "1"
         };
 
         var newToken = await GeraToken(user);

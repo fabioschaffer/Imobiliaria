@@ -1,31 +1,30 @@
 ﻿using Dominio.Entidades.EnderecoNS;
 using Dominio.Entidades.Imobiliaria;
+using Dominio.Entidades.Seguranca;
 using Dominio.Entidades.Testes;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repositorio.Contexto;
-public class AplicacaoDbContext : DbContext {
 
-    public AplicacaoDbContext(DbContextOptions<AplicacaoDbContext> options)
-      : base(options) {
-    }
+public class AplicacaoDbContext : IdentityDbContext<User> {
+
+    public AplicacaoDbContext(DbContextOptions<AplicacaoDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
+
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AplicacaoDbContext).Assembly);
 
-        foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            entity.SetTableName(entity.ClrType.Name);
-
-        modelBuilder.Entity<T_Orcamento>(entity =>
-        {
+        modelBuilder.Entity<T_Orcamento>(entity => {
             entity.HasKey(o => o.Id);
             entity.HasOne(o => o.Servicos)
                   .WithOne(s => s.Orcamento)
                   .HasForeignKey<T_Orcamento_Servicos>(s => s.OrcamentoId);
         });
 
-        modelBuilder.Entity<T_Orcamento_Servicos>(entity =>
-        {
+        modelBuilder.Entity<T_Orcamento_Servicos>(entity => {
             entity.HasKey(s => s.OrcamentoId);
             entity.Property(s => s.OrcamentoId).ValueGeneratedNever();
         });

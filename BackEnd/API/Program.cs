@@ -11,6 +11,7 @@ using Aplicacao.Servicos;
 using Aplicacao.Servicos.Imovel;
 using Aplicacao.Servicos.T_Orcamento;
 using InfraEstrutura;
+using InfraEstrutura.Identity;
 using InfraEstrutura.Seguranca;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Contexto;
@@ -26,6 +27,7 @@ var builder = WebApplication.CreateBuilder(args);
 ConfiguraRepositorio(builder);
 ConfiguraService(builder);
 ConfiguraRestEaseIbge(builder);
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowAll", policy => {
@@ -110,7 +112,8 @@ static void ConfiguraService(WebApplicationBuilder builder) {
     builder.Services.AddScoped<IOrcamentoService, T_OrcamentoService>();
     builder.Services.AddScoped<IPesquisaImovelService, PesquisaImovelService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
-    builder.Services.AddScoped<IAtenticacaoService, AtenticacaoService>(); 
+    builder.Services.AddScoped<IAtenticacaoService, AtenticacaoService>();
+    builder.Services.AddScoped<IIdentityService, IdentityService>(); 
 }
 
 static void ConfiguraRestEaseIbge(WebApplicationBuilder builder) {

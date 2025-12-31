@@ -1,6 +1,9 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Dominio.Entidades.Seguranca;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Repositorio.Contexto;
 using Serilog;
 
 namespace InfraEstrutura;
@@ -74,6 +77,22 @@ public static class DependencyInjection {
                 storeTimestampInUtc: true)
 
             .CreateLogger();
+        return services;
+    }
+
+    public static IServiceCollection AddInfrastructure(
+    this IServiceCollection services,
+    IConfiguration configuration) {
+
+        services
+            .AddIdentity<User, IdentityRole>(options => {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireDigit = true;
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<AplicacaoDbContext>()
+            .AddDefaultTokenProviders();
+
         return services;
     }
 }
